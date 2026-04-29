@@ -1,0 +1,30 @@
+# ============================================
+# SUPABASE
+# ============================================
+NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGc...
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGc...     # NUNCA exponha no client
+
+# ============================================
+# APLICAÇÃO
+# ============================================
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+NEXT_PUBLIC_APP_ENV=development          # development | preview | production
+
+# ============================================
+# OBSERVABILIDADE
+# ============================================
+SENTRY_DSN=
+SENTRY_AUTH_TOKEN=
+
+# ============================================
+# E-MAIL (Resend)
+# ============================================
+RESEND_API_KEY=
+
+# ============================================
+# FEATURE FLAGS
+# ============================================
+NEXT_PUBLIC_FEATURE_FEED_ENCAMINHAMENTO=true
+NEXT_PUBLIC_FEATURE_PWA=true
+NEXT_PUBLIC_FEATURE_TASK_AUTO_POST=false
