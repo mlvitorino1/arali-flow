@@ -1,666 +1,409 @@
-# 🎨 Arali Flow — Branding & Design System
-
-> Documento inicial de identidade visual. **Versão preliminar** sujeita a refinamento após validação com a Arali Móveis e com designer (futuro). Este documento serve como **base operacional** para começar o desenvolvimento sem ficar travado esperando design.
-
----
-
-## 📑 Índice
-
-1. [Identidade da Marca](#1-identidade-da-marca)
-2. [Tom e Voz](#2-tom-e-voz)
-3. [Paleta de Cores](#3-paleta-de-cores)
-4. [Tipografia](#4-tipografia)
-5. [Iconografia](#5-iconografia)
-6. [Espaçamento e Grid](#6-espaçamento-e-grid)
-7. [Border Radius e Sombras](#7-border-radius-e-sombras)
-8. [Gradientes](#8-gradientes)
-9. [Componentes](#9-componentes)
-10. [Tokens (Tailwind + CSS Variables)](#10-tokens-tailwind--css-variables)
-11. [Modo Claro vs Escuro](#11-modo-claro-vs-escuro)
-12. [Acessibilidade](#12-acessibilidade)
-13. [Logo e Aplicações](#13-logo-e-aplicações)
-14. [Anti-Padrões](#14-anti-padrões)
+# 🎨 BRANDING.md — Identidade Visual Arali Flow
+> Fonte: Brand Book Arali Móveis (Fev/2026) — documento oficial LIOMA IT
+> Última atualização: 2026-04-30
+> Versão: 1.1
 
 ---
 
-## 1. Identidade da Marca
+## 🏢 Sobre a Marca
 
-### Posicionamento
-**Arali Flow** é o sistema operacional digital de uma marcenaria de altíssimo padrão. A interface deve transmitir as mesmas qualidades dos móveis Arali:
+**Arali Móveis** — Engenharia Aplicada à Madeira.
+Fundada por dois irmãos, o símbolo é derivado da letra "A" com dois elementos
+representando os fundadores. Traços retos e angulares remetem aos cortes precisos
+da madeira. Palavras-chave da identidade: **Legado · Expertise · Humildade**.
 
-- **Sofisticação sem ostentação**
-- **Precisão de marcenaria fina**
-- **Materiais nobres** (madeira, metal, couro — traduzidos visualmente)
-- **Atenção a cada detalhe**
-- **Funcionalidade silenciosa** — a UI não compete com o conteúdo
-
-### Conceito Visual Núcleo
-> **Luxo Discreto** — interfaces escuras, neutros profundos, ouro velho como detalhe, madeira como textura emocional, sem brilho excessivo, sem flashes, sem "neon tech".
-
-### Inspirações
-- **Linear** (precisão e clareza)
-- **Cron / Notion Calendar** (densidade elegante)
-- **Aston Martin / Bentley sites** (luxo automotivo discreto)
-- **Hermès digital** (sofisticação editorial)
-- **Figma dark mode** (legibilidade prolongada)
-- **Stripe Dashboard** (rigor financeiro com elegância)
-
-### O que **NÃO** queremos
-- ❌ Aparência "tech bro startup"
-- ❌ Gradientes neon, roxo cyber
-- ❌ Glassmorphism exagerado
-- ❌ Animações chamativas
-- ❌ Cores saturadas e infantis
-- ❌ Stock photos genéricas
-- ❌ Emojis decorativos espalhados pela UI (uso pontual em contexto)
+> *"A Arali nasce das raízes da família, cresce com a técnica e se consolida como legado."*
 
 ---
 
-## 2. Tom e Voz
+## 🎨 Paleta de Cores Oficial (Brand Book)
 
-### Atributos da Comunicação
-- **Direto** — sem rodeios
-- **Preciso** — vocabulário correto da marcenaria
-- **Confiante** — sem ser arrogante
-- **Calmo** — não usa urgência fabricada
-- **Premium** — sem ser pomposo
+São **4 cores** — nenhuma outra cor é da marca. Utilitários (success, danger) existem
+apenas para sinalização funcional da UI.
 
-### Estilo de Microcopy
+| Nome | Hex | RGB | Papel |
+|---|---|---|---|
+| **Creme** | `#F5ECE6` | R245 G236 B230 | Fundo light, papel, texto sobre escuro |
+| **Terracota** | `#C77549` | R201 G123 B99 | Acento quente, CTAs, chips de OS |
+| **Vinho** | `#683637` | R104 G54 B55 | Cor primária, navegação ativa, autoridade |
+| **Marrom** | `#412F2D` | R65 G47 B45 | Base das superfícies dark, texto em light |
 
-| Situação | ❌ Genérico / Ruim | ✅ Arali Flow |
-|---|---|---|
-| Botão primário | "Salvar" | "Salvar alterações" |
-| Confirmação | "Item salvo!" | "Recebimento registrado." |
-| Erro | "Algo deu errado" | "Não foi possível salvar. Tente novamente em alguns segundos." |
-| Loading | "Carregando..." | "Carregando projetos..." |
-| Estado vazio | "Sem dados" | "Nenhum projeto atribuído ao seu Time ainda." |
-| Confirmação destrutiva | "Você tem certeza?" | "Excluir este projeto removerá também as Tasks vinculadas. Confirma?" |
+### Psicologia (Brand Book oficial)
 
-### Termos Padronizados (Glossário Resumido)
-
-| Termo | Como usar | Como NÃO usar |
-|---|---|---|
-| **Pasta do Projeto** | "Abra a Pasta do Projeto" | "Workspace do Projeto" |
-| **Integrante** | "Integrantes do Time" | "Usuário", "Membro", "Colaborador" no contexto de um Time |
-| **Time** | "Time Comercial" | "Equipe", "Squad" |
-| **Ambiente** | "Ambiente PCP" | "Departamento", "Setor" |
-| **Ferramenta** | "Ferramenta Recebimentos" | "Módulo", "App" |
-| **Task** | "Concluir Task" | "Tarefa" (usaremos Task para padronizar o domínio) |
-| **Feed** | "Feed do Time" | "Mural", "Timeline" |
-
-> 📄 Glossário completo: [`docs/ai/GLOSSARY.md`](./ai/GLOSSARY.md)
+- **Terracota** — Simbolismo: origem, matéria e construção. Evoca calor, proximidade e permanência.
+- **Vinho** — Simbolismo: profundidade, maturidade e rigor. Expressa precisão, controle e autoridade técnica.
+- **Marrom** — Simbolismo: estabilidade, estrutura e confiança. Remete à base construtiva e ao conhecimento.
 
 ---
 
-## 3. Paleta de Cores
+## 🌗 Sistema Dual de Temas
 
-### Filosofia
-**Base escura premium** + **acentos quentes (gold/alaranjado)** + **textura de madeira como detalhe**. Nunca todas no mesmo momento — a paleta é orquestrada.
+O Arali Flow usa **`:root` = light** e **`.dark` = dark**.
+Todas as cores vivem em CSS custom properties — nenhum componente usa hex literal.
+Tokens semânticos (`bg-bg`, `text-text-1`, `bg-vinho`, `bg-terracota`) são as únicas
+classes de cor permitidas nos componentes.
 
-### Cores Principais
+> ⚠️ **`vinho-light` e `terra-light` têm valores diferentes por modo** — não são iguais.
+> Em light precisam ser mais escuras para ter contraste sobre o creme.
+> Em dark precisam ser mais claras para ter contraste sobre o marrom profundo.
 
-#### 🖤 Preto Profundo (Background)
-```
---arali-noir-900:   #0A0A0B    /* Fundo principal */
---arali-noir-800:   #111113    /* Card / Surface elevado */
---arali-noir-700:   #1A1A1D    /* Hover / Borda sutil */
---arali-noir-600:   #232328    /* Divisor / Stroke */
-```
-
-#### 🪵 Madeira (Texturas e Acentos Quentes)
-```
---arali-wood-900:   #2B1F14    /* Mogno escuro - base de texturas */
---arali-wood-700:   #4A3520    /* Madeira média - bordas decorativas */
---arali-wood-500:   #7A5A3A    /* Carvalho - destaque sutil */
---arali-wood-300:   #B89270    /* Madeira clara - hover suave */
-```
-
-#### ✨ Gold (Acento Premium)
-```
---arali-gold-900:   #6B4F1A    /* Gold escuro - bordas */
---arali-gold-700:   #9A7424    /* Gold médio */
---arali-gold-500:   #C8973A    /* Gold principal — botão primário, ícone destaque */
---arali-gold-300:   #E0B968    /* Gold claro — hover */
---arali-gold-100:   #F2D89B    /* Gold pálido — backgrounds delicados */
-```
-
-#### 🔥 Alaranjado (CTA e Sinalização Quente)
-```
---arali-amber-900:  #6E2E0A    /* Alaranjado escuro */
---arali-amber-700:  #9C4514    /* Alaranjado médio */
---arali-amber-500:  #D6651E    /* Alaranjado principal - alertas, destaques */
---arali-amber-300:  #F09151    /* Alaranjado claro - hover */
-```
-
-#### ⚪ Neutros (Textos e UI)
-```
---arali-neutral-50:    #FAFAF8    /* Texto principal sobre escuro */
---arali-neutral-200:   #D4D4CF    /* Texto secundário */
---arali-neutral-400:   #8A8A85    /* Texto terciário / disabled */
---arali-neutral-600:   #4A4A47    /* Texto sobre fundos claros */
---arali-neutral-800:   #2A2A28    /* Texto principal sobre claro */
-```
-
-### Cores Semânticas
-
-```
---success:   #4A7C3F    /* Verde musgo - não brilhante */
---warning:   #D6651E    /* Reusa o Alaranjado */
---danger:    #A03A2C    /* Vermelho terra - não vermelho fluorescente */
---info:      #3F6B7C    /* Azul aço discreto */
-```
-
-### Regras de Uso
-- **Background base**: sempre `noir-900`
-- **Surface (cards, modais)**: `noir-800`
-- **Texto principal**: `neutral-50`
-- **Texto secundário**: `neutral-200`
-- **Botão primário**: `gold-500` com texto `noir-900`
-- **Botão secundário**: borda `noir-600`, texto `neutral-50`, fundo transparente
-- **CTA quente / urgência**: `amber-500`
-- **Madeira**: APENAS em texturas decorativas (header, login, splash) — nunca em fundo de operação
-- **Verde / vermelho**: SOMENTE em status semânticos (nunca como acento decorativo)
-
-### Proporção Recomendada (Regra 60-30-10)
-```
-60% Preto Profundo (noir)
-30% Neutros (texto e UI)
-10% Gold + Alaranjado + Madeira (acentos)
-```
-
----
-
-## 4. Tipografia
-
-### Fontes
-
-#### Display / Títulos
-**`Cormorant Garamond`** — serif elegante, transmite craft e tradição
-```
-Aplicação: títulos de seção, logo, dashboard headers, login
-Pesos: 400, 500, 600, 700
-```
-
-#### UI / Corpo
-**`Inter`** — sans-serif ultra-legível, padrão moderno premium
-```
-Aplicação: corpo de texto, formulários, tabelas, navegação
-Pesos: 400, 500, 600, 700
-```
-
-#### Mono (código, IDs, valores)
-**`JetBrains Mono`** — para IDs de projeto, valores monetários precisos, código
-```
-Aplicação: PROJ-2025-001, R$ 12.345,67, hashes
-Pesos: 400, 500
-```
-
-### Escala Tipográfica
-
-```
-text-xs       → 12px / 16px line-height   (legendas, metadados)
-text-sm       → 14px / 20px               (corpo secundário, inputs)
-text-base     → 16px / 24px               (corpo principal)
-text-lg       → 18px / 28px               (subtítulos)
-text-xl       → 20px / 28px               (h4)
-text-2xl      → 24px / 32px               (h3)
-text-3xl      → 30px / 36px               (h2)
-text-4xl      → 36px / 40px               (h1)
-text-display  → 48px / 52px Cormorant     (hero / landing)
-```
-
-### Hierarquia em Páginas
-
-```
-H1 — Cormorant 400 — text-3xl  (uma por página, identidade)
-H2 — Inter 600     — text-2xl
-H3 — Inter 600     — text-xl
-H4 — Inter 600     — text-lg
-Body — Inter 400   — text-base
-Small — Inter 400  — text-sm
-```
-
-### Regra de Ouro
-- **Títulos respiram**: usar Cormorant em h1 e em momentos editoriais
-- **UI funcional**: Inter em todo o resto
-- **Nunca misturar Cormorant em UI operacional** (ficaria distrativo)
-
----
-
-## 5. Iconografia
-
-### Biblioteca Padrão
-**`Lucide React`** — leve, consistente, dark-mode friendly.
-
-### Tamanhos
-```
-icon-sm    → 14px    (inline em texto)
-icon-base  → 16px    (botões, navegação)
-icon-md    → 20px    (sidebar, headers)
-icon-lg    → 24px    (cards principais)
-icon-xl    → 32px    (vazio de estados, splash)
-```
-
-### Stroke
-- **Padrão**: `stroke-1.5` (mais elegante que o default 2)
-- **Display**: `stroke-1` (em momentos editoriais)
-
-### Mapa de Ícones — Ambientes do Sistema
-
-| Conceito | Ícone Lucide | Uso |
-|---|---|---|
-| Home | `Home` | Sidebar |
-| Projetos | `FolderOpen` | Sidebar |
-| Pasta do Projeto | `FolderKanban` | Header da pasta |
-| Time | `Users` | Sidebar / página do time |
-| Feed | `Newspaper` | Sidebar |
-| Tasks | `CheckSquare` | Listas de tarefas |
-| Diretoria | `Crown` | Ambiente Diretoria |
-| Comercial | `Handshake` | Ambiente Comercial |
-| PCP | `Workflow` | Ambiente PCP |
-| Engenharia | `DraftingCompass` | Roadmap |
-| Suprimentos | `PackageSearch` | Roadmap |
-| Produção | `Factory` | Roadmap |
-| Obra | `HardHat` | Roadmap |
-| Recebimentos | `Wallet` | Ferramenta Comercial |
-| Notificações | `Bell` | Header |
-| Configurações | `Settings` | Sidebar |
-
----
-
-## 6. Espaçamento e Grid
-
-### Sistema de Espaçamento (4px base)
-
-```
-space-1    → 4px
-space-2    → 8px
-space-3    → 12px
-space-4    → 16px      ← unidade base de respiro
-space-5    → 20px
-space-6    → 24px      ← entre cards
-space-8    → 32px      ← entre seções
-space-10   → 40px
-space-12   → 48px      ← topo de páginas
-space-16   → 64px
-space-20   → 80px      ← hero / landing
-```
-
-### Container e Layout
-
-```
-Sidebar:    240px (collapsed: 64px)
-Header:     56px
-Mobile bottom nav: 64px (em mobile)
-Container max-width:
-  - Operação: 1440px
-  - Leitura (docs, post): 720px
-```
-
-### Densidade
-- **Modo padrão**: confortável (Inter 14-16px, padding generoso)
-- **Modo denso (futuro)**: tabelas e listas grandes (Inter 13px, padding reduzido)
-
----
-
-## 7. Border Radius e Sombras
-
-### Border Radius
-
-```
-rounded-none   → 0           /* Botões dentro de tabelas */
-rounded-sm     → 2px         /* Tags, chips */
-rounded        → 4px         /* Inputs, botões pequenos */
-rounded-md     → 6px         /* Default UI */
-rounded-lg     → 8px         /* Cards principais */
-rounded-xl     → 12px        /* Modais, dialogs */
-rounded-2xl    → 16px        /* Hero cards */
-rounded-full   → 9999px      /* Avatars, badges circulares */
-```
-
-### Sombras (em modo escuro)
+### CSS Custom Properties (`src/styles.css`)
 
 ```css
---shadow-sm:    0 1px 2px rgba(0,0,0,0.4);
---shadow-md:    0 4px 8px rgba(0,0,0,0.5);
---shadow-lg:    0 8px 24px rgba(0,0,0,0.6);
---shadow-gold:  0 0 16px rgba(200,151,58,0.15);   /* Glow sutil de destaque */
---shadow-inner: inset 0 1px 0 rgba(255,255,255,0.04);  /* Highlight superior em cards */
-```
+:root {
+  /* ── LIGHT (padrão — cor de papel Arali) ── */
 
-> **Regra**: sombras em modo escuro são MAIS escuras que o fundo (não claras). O highlight superior `shadow-inner` cria a sensação de "lapidado" / "esculpido".
+  /* Backgrounds */
+  --bg:          #F5ECE6;   /* creme oficial — fundo principal */
+  --surface-1:   #FDFAF8;   /* near-white quente — sidebar, painéis */
+  --surface-2:   #EDE0D6;   /* creme mais escuro — cards, inputs */
+  --surface-3:   #E2D0C4;   /* hover de cards, dropdowns */
+  --border:      rgba(65, 47, 45, 0.12);
 
----
+  /* Marca */
+  --vinho:       #683637;
+  --vinho-light: #4D2526;   /* ← mais ESCURO no light (contraste sobre creme) */
+  --terracota:   #C77549;
+  --terra-light: #A85D38;   /* ← mais ESCURO no light */
 
-## 8. Gradientes
+  /* Texto */
+  --text-1:      #412F2D;   /* marrom oficial */
+  --text-2:      #7A5C54;
+  --text-3:      #A89B95;   /* placeholder, desabilitado */
 
-> Você pediu gradiente. Use **com extrema parcimônia** — apenas em momentos editoriais (hero, splash, cards de destaque).
+  /* Utilitários */
+  --success:     #2D7A57;   /* verde escuro — contraste no light */
+  --danger:      #B94040;   /* vermelho escuro — contraste no light */
 
-### Gradientes Aprovados
+  /* Sombras (sutis, marrom) */
+  --shadow-card:  0 1px 3px rgba(65,47,45,0.08), 0 4px 12px rgba(65,47,45,0.06);
+  --shadow-hover: 0 4px 16px rgba(65,47,45,0.14), 0 1px 3px rgba(65,47,45,0.1);
+}
 
-```css
-/* Hero / Landing — gradiente noir + gold sutil */
---gradient-hero: linear-gradient(135deg, #0A0A0B 0%, #1A1A1D 60%, #2B1F14 100%);
+.dark {
+  /* ── DARK (derivado do marrom Arali) ── */
 
-/* Cards de destaque (raro) */
---gradient-premium: linear-gradient(180deg, #1A1A1D 0%, #111113 100%);
+  /* Backgrounds */
+  --bg:          #150E0D;
+  --surface-1:   #1E1512;
+  --surface-2:   #2A1C18;
+  --surface-3:   #352420;
+  --border:      rgba(245, 236, 230, 0.07);
 
-/* Ouro — APENAS em moldura, não em fundo grande */
---gradient-gold-edge: linear-gradient(135deg, #6B4F1A 0%, #C8973A 50%, #6B4F1A 100%);
+  /* Marca */
+  --vinho:       #683637;
+  --vinho-light: #8B4A4B;   /* ← mais CLARO no dark (contraste sobre marrom) */
+  --terracota:   #C77549;
+  --terra-light: #D4906A;   /* ← mais CLARO no dark */
 
-/* Quente para CTAs (alertas, lançamentos) — uso muito pontual */
---gradient-amber: linear-gradient(135deg, #9C4514 0%, #D6651E 100%);
-```
+  /* Texto */
+  --text-1:      #F5ECE6;   /* creme — texto principal no escuro */
+  --text-2:      #A89B95;
+  --text-3:      #5C4E4A;
 
-### Anti-Padrão de Gradientes
-- ❌ Gradiente arco-íris
-- ❌ Gradiente em texto longo (legibilidade morre)
-- ❌ Gradiente animado em background (cansa visualmente)
-- ❌ Mais de 3 cores num gradiente
+  /* Utilitários */
+  --success:     #4CAF82;
+  --danger:      #D95F52;
 
----
+  /* Sombras (escuras) */
+  --shadow-card:  0 1px 0 0 rgba(245,236,230,0.04) inset, 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-hover: 0 1px 0 0 rgba(245,236,230,0.06) inset, 0 8px 24px rgba(0,0,0,0.5);
+}
 
-## 9. Componentes
-
-### Princípios
-- Toda interação tem **estado claro**: default, hover, focus, active, disabled, loading
-- **Foco visível** sempre (acessibilidade)
-- **Transições suaves** (~150-200ms)
-- **Sem animações cinematográficas** em ações operacionais
-
-### Botões
-
-```
-Primário:
-  bg: gold-500
-  texto: noir-900
-  hover: gold-300
-  active: gold-700
-  focus ring: gold-300 / 2px
-  disabled: opacity 50%
-
-Secundário:
-  bg: transparente
-  borda: noir-600
-  texto: neutral-50
-  hover: borda neutral-400
-  active: bg noir-700
-
-Terciário (ghost):
-  bg: transparente
-  texto: neutral-200
-  hover: bg noir-700
-
-Destrutivo:
-  bg: danger
-  texto: neutral-50
-  hover: brightness 110%
-```
-
-### Inputs
-
-```
-bg: noir-800
-borda: noir-600 (1px)
-texto: neutral-50
-placeholder: neutral-400
-focus: borda gold-500 + ring gold-300/20%
-erro: borda danger + ring danger/20%
-disabled: opacity 50% + cursor not-allowed
-```
-
-### Cards
-
-```
-bg: noir-800
-borda: noir-700 (1px)
-shadow: shadow-md + shadow-inner
-padding: space-6
-hover (se clicável): borda gold-700 + transição 150ms
-```
-
-### Avatares
-
-```
-Tamanhos: 24px, 32px, 40px, 56px
-Fallback: iniciais com bg gradiente noir → wood
-Ring de role:
-  - Diretoria: gold-500 (2px)
-  - Gestor: gold-700 (1.5px)
-  - Líder: wood-500 (1.5px)
-  - Integrante: sem ring
-```
-
-### Status (Badge / Tag)
-
-```
-pendente:    bg neutral-800, texto neutral-200
-em_andamento: bg amber-900, texto amber-300
-concluida:   bg success/20%, texto success
-bloqueada:   bg danger/20%, texto danger
-revisao:     bg gold-900, texto gold-300
-```
-
----
-
-## 10. Tokens (Tailwind + CSS Variables)
-
-### CSS Variables (em `globals.css`)
-
-```css
-@layer base {
-  :root {
-    /* Noir */
-    --noir-900: 10 10 11;
-    --noir-800: 17 17 19;
-    --noir-700: 26 26 29;
-    --noir-600: 35 35 40;
-
-    /* Wood */
-    --wood-900: 43 31 20;
-    --wood-700: 74 53 32;
-    --wood-500: 122 90 58;
-    --wood-300: 184 146 112;
-
-    /* Gold */
-    --gold-900: 107 79 26;
-    --gold-700: 154 116 36;
-    --gold-500: 200 151 58;
-    --gold-300: 224 185 104;
-    --gold-100: 242 216 155;
-
-    /* Amber */
-    --amber-900: 110 46 10;
-    --amber-700: 156 69 20;
-    --amber-500: 214 101 30;
-    --amber-300: 240 145 81;
-
-    /* Neutral */
-    --neutral-50: 250 250 248;
-    --neutral-200: 212 212 207;
-    --neutral-400: 138 138 133;
-    --neutral-600: 74 74 71;
-    --neutral-800: 42 42 40;
-
-    /* Semantic */
-    --success: 74 124 63;
-    --warning: 214 101 30;
-    --danger: 160 58 44;
-    --info: 63 107 124;
-
-    /* UI */
-    --background: var(--noir-900);
-    --foreground: var(--neutral-50);
-    --card: var(--noir-800);
-    --card-foreground: var(--neutral-50);
-    --primary: var(--gold-500);
-    --primary-foreground: var(--noir-900);
-    --secondary: var(--noir-700);
-    --secondary-foreground: var(--neutral-50);
-    --muted: var(--noir-700);
-    --muted-foreground: var(--neutral-400);
-    --accent: var(--gold-500);
-    --accent-foreground: var(--noir-900);
-    --destructive: var(--danger);
-    --destructive-foreground: var(--neutral-50);
-    --border: var(--noir-600);
-    --input: var(--noir-600);
-    --ring: var(--gold-500);
-
-    /* Radius */
-    --radius: 0.5rem;
-  }
+/* Aliases legados — apontam para os novos tokens.
+   Mantidos para compatibilidade durante migração progressiva.
+   Não usar em código novo. */
+:root, .dark {
+  --noir:   var(--bg);
+  --wood:   var(--vinho);
+  --gold:   var(--terracota);
+  --amber:  var(--terracota);
+  --creme:  var(--text-1);
 }
 ```
 
-### Extensão Tailwind (`tailwind.config.ts`)
+### Tailwind v4 — `@theme` inline (`src/styles.css`)
+
+> ⚠️ Este projeto usa **Tailwind v4 + Vite**. Não existe `tailwind.config.ts`.
+> Tokens entram via `@theme` inline no CSS e ficam disponíveis como classes utilitárias
+> (`bg-bg`, `text-vinho`, `bg-terracota`, etc.) automaticamente.
+
+```css
+@theme inline {
+  /* Backgrounds */
+  --color-bg:          var(--bg);
+  --color-surface-1:   var(--surface-1);
+  --color-surface-2:   var(--surface-2);
+  --color-surface-3:   var(--surface-3);
+
+  /* Marca */
+  --color-vinho:       var(--vinho);
+  --color-vinho-light: var(--vinho-light);
+  --color-terracota:   var(--terracota);
+  --color-terra-light: var(--terra-light);
+
+  /* Texto */
+  --color-text-1:      var(--text-1);
+  --color-text-2:      var(--text-2);
+  --color-text-3:      var(--text-3);
+
+  /* Utilitários */
+  --color-success:     var(--success);
+  --color-danger:      var(--danger);
+
+  /* Aliases legados */
+  --color-noir:        var(--bg);
+  --color-wood:        var(--vinho);
+  --color-gold:        var(--terracota);
+  --color-amber:       var(--terracota);
+
+  /* Sombras */
+  --shadow-card:       var(--shadow-card);
+  --shadow-hover:      var(--shadow-hover);
+
+  /* Fontes */
+  --font-sans:         'DM Sans', sans-serif;
+  --font-montserrat:   'Montserrat', sans-serif;
+  --font-mono:         'JetBrains Mono', monospace;
+}
+```
+
+### Transições Globais
+
+```css
+/* Em @layer base no styles.css */
+*, *::before, *::after {
+  transition:
+    background-color 250ms ease,
+    border-color     200ms ease,
+    color            150ms ease,
+    box-shadow       200ms ease;
+}
+
+/* Elementos interativos: mais rápidos */
+button, a, [role="button"] {
+  transition-duration: 150ms;
+}
+```
+
+---
+
+## 🌓 Hook de Tema (`src/hooks/use-theme.ts`)
 
 ```ts
-export default {
-  theme: {
-    extend: {
-      colors: {
-        noir: {
-          900: 'rgb(var(--noir-900) / <alpha-value>)',
-          800: 'rgb(var(--noir-800) / <alpha-value>)',
-          700: 'rgb(var(--noir-700) / <alpha-value>)',
-          600: 'rgb(var(--noir-600) / <alpha-value>)',
-        },
-        wood: {
-          900: 'rgb(var(--wood-900) / <alpha-value>)',
-          700: 'rgb(var(--wood-700) / <alpha-value>)',
-          500: 'rgb(var(--wood-500) / <alpha-value>)',
-          300: 'rgb(var(--wood-300) / <alpha-value>)',
-        },
-        gold: {
-          900: 'rgb(var(--gold-900) / <alpha-value>)',
-          700: 'rgb(var(--gold-700) / <alpha-value>)',
-          500: 'rgb(var(--gold-500) / <alpha-value>)',
-          300: 'rgb(var(--gold-300) / <alpha-value>)',
-          100: 'rgb(var(--gold-100) / <alpha-value>)',
-        },
-        amber: {
-          900: 'rgb(var(--amber-900) / <alpha-value>)',
-          700: 'rgb(var(--amber-700) / <alpha-value>)',
-          500: 'rgb(var(--amber-500) / <alpha-value>)',
-          300: 'rgb(var(--amber-300) / <alpha-value>)',
-        },
-      },
-      fontFamily: {
-        display: ['var(--font-cormorant)', 'serif'],
-        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-jetbrains)', 'monospace'],
-      },
-      backgroundImage: {
-        'gradient-hero': 'linear-gradient(135deg, #0A0A0B 0%, #1A1A1D 60%, #2B1F14 100%)',
-        'gradient-premium': 'linear-gradient(180deg, #1A1A1D 0%, #111113 100%)',
-        'gradient-gold-edge': 'linear-gradient(135deg, #6B4F1A 0%, #C8973A 50%, #6B4F1A 100%)',
-        'gradient-amber': 'linear-gradient(135deg, #9C4514 0%, #D6651E 100%)',
-      },
-      boxShadow: {
-        'gold': '0 0 16px rgba(200,151,58,0.15)',
-        'inner-highlight': 'inset 0 1px 0 rgba(255,255,255,0.04)',
-      },
-    },
-  },
+'use client'
+import { useEffect, useState } from 'react'
+
+type Theme = 'dark' | 'light'
+
+export function useTheme() {
+  const [theme, setTheme] = useState<Theme>('dark')
+
+  useEffect(() => {
+    const saved = localStorage.getItem('arali-theme') as Theme | null
+    const initial = saved ?? 'dark'           // default sempre dark
+    applyTheme(initial)
+    setTheme(initial)
+  }, [])
+
+  function applyTheme(t: Theme) {
+    document.documentElement.classList.toggle('dark', t === 'dark')
+    localStorage.setItem('arali-theme', t)
+  }
+
+  function toggleTheme() {
+    const next: Theme = theme === 'dark' ? 'light' : 'dark'
+    applyTheme(next)
+    setTheme(next)
+  }
+
+  return { theme, toggleTheme, isDark: theme === 'dark' }
 }
 ```
 
----
+### Anti-flash (TanStack Start — `__root.tsx`)
 
-## 11. Modo Claro vs Escuro
+Adicionar no `<head>` antes da hidratação para evitar piscão branco:
 
-### Decisão: **Dark-First, Light Opcional**
-
-**MVP**: apenas Dark Mode (alinhado ao tom Luxo Discreto, reduz fadiga visual em uso prolongado, evita debate de design no MVP).
-
-**Fase 2**: implementar Light Mode com a mesma paleta invertida, mantendo Gold/Wood como acentos.
-
-**Estrutura preparada**: usar CSS Variables desde o dia 1 facilita ativar Light Mode depois sem refactor.
-
----
-
-## 12. Acessibilidade
-
-### Padrão WCAG 2.1 nível AA
-
-- ✅ **Contraste mínimo 4.5:1** em texto normal, 3:1 em texto grande
-- ✅ **Foco visível** em todos elementos interativos (ring gold)
-- ✅ **Navegação por teclado** completa (Tab, Esc, Enter, setas em listas)
-- ✅ **ARIA labels** em ícones-only buttons
-- ✅ **Skip links** no header
-- ✅ **Reduced motion** respeitado (`prefers-reduced-motion`)
-- ✅ **Tamanho mínimo** de toque mobile: 44x44px
-- ✅ **Texto alternativo** em todas as imagens significativas
-
-### Verificações Automatizadas
-- ESLint com `eslint-plugin-jsx-a11y`
-- Lighthouse CI no pipeline
-- Manual: Axe DevTools nos PRs maiores
-
----
-
-## 13. Logo e Aplicações
-
-### Status Atual
-**Logo ainda não foi criado.** Espaço reservado para entrega futura por designer.
-
-### Diretrizes Iniciais para o Futuro Logo
-
-- Conceito sugerido: **letra "A" estilizada** evocando uma serra ou um chanfro de marcenaria + **palavra "FLOW"** em sans-serif elegante
-- **Versões**: monocromática (gold sobre noir, noir sobre gold), positiva, negativa
-- **Variantes**: completa (Arali Flow), só símbolo (A), favicon (16x16, 32x32, 192x192, 512x512 para PWA)
-- **Espaço de respiro mínimo**: equivalente à altura da letra "A"
-- **Tamanho mínimo**: 24px de altura
-
-### Placeholder Atual (até logo final)
-```
-ARALI ✦ FLOW
-(Cormorant Garamond 600 + ornamento gold)
+```tsx
+<script dangerouslySetInnerHTML={{
+  __html: `
+    (function() {
+      var t = localStorage.getItem('arali-theme');
+      if (t !== 'light') document.documentElement.classList.add('dark');
+    })();
+  `
+}} />
 ```
 
-### Favicon e PWA Icons
-Manter consistência com `/public/icons/`:
-- `favicon.ico`, `favicon-32x32.png`, `apple-touch-icon.png`
-- `icon-192.png`, `icon-512.png` (PWA)
-- `maskable-icon.png` (PWA Android)
+---
+
+## 🔤 Tipografia
+
+### Fontes Oficiais (Brand Book)
+
+| Fonte | Peso | Uso |
+|---|---|---|
+| **Montserrat** | 300, 400, 500, 600, 700 | Logotipo, títulos de página, labels uppercase |
+| **DM Sans Medium** | 500 | Sub-títulos, nomes em cards, textos de destaque |
+| **DM Sans Regular** | 400 | Corpo de texto, descrições, meta-informações |
+| **JetBrains Mono** | 400, 500 | OS (OS12513), valores monetários, datas *(funcional, não está no brand book)* |
+
+### Hierarquia
+
+```
+Montserrat 300 → Títulos de página ("Comercial", "Recebimentos")
+Montserrat 600 → Labels uppercase ("AMBIENTES", "TIMES", "ENTREGAS")
+DM Sans 500    → Nome do projeto no card, sub-títulos
+DM Sans 400    → Corpo, meta-info, descrições
+JetBrains 500  → "OS12513", "R$ 12.450,00"
+JetBrains 400  → Datas, códigos secundários
+```
+
+### Importação Google Fonts (`src/styles.css`)
+
+```css
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+```
 
 ---
 
-## 14. Anti-Padrões
+## 🔲 Border Radius e Sombras
 
-### O que NUNCA fazer
+```
+Inputs / Badges / Botões:  rounded-md (6px)
+Cards / Modais / Drawers:  rounded-lg (8px)
+Avatares:                  rounded-full
 
-1. ❌ **Usar mais de 3 cores de acento** numa mesma tela
-2. ❌ **Bordas brilhantes** (white/100% opacity) — usar highlight sutil 4-8% opacity
-3. ❌ **Animações de mais de 300ms** em ações operacionais
-4. ❌ **Drop shadows brancas** ou coloridas — sempre escuras
-5. ❌ **Texto Cormorant em parágrafos** — só em títulos
-6. ❌ **Gradiente em fundo de operação** (planilhas, listas)
-7. ❌ **Emoji decorativo** em UI corporativa (ok em Feed/Posts)
-8. ❌ **Capitalização ALL CAPS** em texto longo (ok em labels curtos)
-9. ❌ **Stock photos genéricas**
-10. ❌ **Termos como "uau"**, "incrível", "fantástico" no microcopy
-11. ❌ **Dark mode com cinza puro** (frio demais — sempre tem matiz quente)
-12. ❌ **Logo da Arali deformado, recolorido ou sob fundo conflitante**
+Sombra dark — card:  0 1px 0 rgba(245,236,230,0.04) inset, 0 4px 16px rgba(0,0,0,0.4)
+Sombra dark — hover: 0 1px 0 rgba(245,236,230,0.06) inset, 0 8px 24px rgba(0,0,0,0.5)
+Sombra light — card: 0 1px 3px rgba(65,47,45,0.08), 0 4px 12px rgba(65,47,45,0.06)
+Sombra light — hover:0 4px 16px rgba(65,47,45,0.14), 0 1px 3px rgba(65,47,45,0.1)
+
+→ Usar classes: shadow-card e shadow-hover (mapeadas no @theme)
+```
 
 ---
 
-## 📌 Próximos Passos do Branding
+## 🏷️ Badges de Status
 
-1. ✅ Estabelecer paleta e tokens iniciais (este documento)
-2. ⏳ Validar paleta em wireframes navegáveis (Figma/Lovable)
-3. ⏳ Validar com Arali Móveis em checkpoint
-4. ⏳ Contratar/orientar designer para criar logo definitivo
-5. ⏳ Criar Storybook com todos os componentes documentados
-6. ⏳ Refinar microcopy em todas as telas
-7. ⏳ Adicionar Light Mode (Fase 2)
-8. ⏳ Criar Brand Book em PDF para Arali (Fase pós-MVP)
+Usando opacidade Tailwind (`/10`, `/15`, `/30`) — funcionam em ambos os temas:
+
+```
+nova:     bg-terracota/10  border-terracota/30  text-terracota
+enviada:  bg-vinho/15      border-vinho/40      text-vinho-light
+nfp:      bg-vinho/10      border-vinho/25      text-text-2
+aprovada: bg-success/12    border-success/30    text-success
+recusada: bg-danger/12     border-danger/30     text-danger
+em_pausa: bg-terra-light/10 border-terra-light/25 text-terra-light
+```
 
 ---
 
-> *"Design é o silêncio entre as notas. Em uma marcenaria de luxo, o design não grita — ele convida."*
+## 🔧 Componentes — Spec por Tema
 
-**Versão**: 0.1 — Inicial preliminar  
-**Última atualização**: 2026-04-29  
-**Autor**: Marcus Vitorino + Copiloto IA
+Todos os valores abaixo usam tokens. Nenhum hex literal nos componentes.
+
+### Botão Primário
+```
+bg-terracota
+text-bg          ← usa --bg: no dark é #150E0D, no light é #F5ECE6 — contraste garantido
+hover: bg-terra-light
+font: font-montserrat font-semibold text-sm
+rounded-md, transition-colors duration-150
+```
+
+### Botão Outline / Secundário
+```
+bg-transparent
+border border-vinho
+text-text-1
+hover: bg-vinho/15
+rounded-md, transition-colors duration-150
+```
+
+### Input / Select
+```
+bg-surface-1
+border border-border
+focus: border-terracota ring-0 outline-none
+text-text-1, placeholder: text-text-3
+rounded-md
+```
+
+### Card de OS
+```
+bg-surface-2
+border border-border rounded-lg
+shadow-card → hover: shadow-hover bg-surface-3
+selected: border-terracota border-[1.5px]
+
+número OS: font-mono text-sm
+  dark: text-terracota bg-terracota/10 border-terracota/25
+  light: text-vinho bg-vinho/10 border-vinho/25
+  → className="font-mono text-vinho dark:text-terracota bg-vinho/10 dark:bg-terracota/10 ..."
+```
+
+### Sidebar — Item de Navegação
+```
+default: text-text-2
+hover:   bg-surface-3 text-text-1
+ativo:   bg-surface-2 text-text-1 border-l-2 border-vinho
+```
+
+### Avatar
+```
+rounded-full, bg-surface-2
+border border-terracota
+initials: font-montserrat font-semibold text-terracota
+```
+
+### Toggle de Tema (Header)
+```
+Ícone Sun (light mode) / Moon (dark mode) — lucide-react, 18px, strokeWidth 1.5
+p-1.5 rounded-md text-text-2 hover:text-text-1 hover:bg-surface-2
+transition-colors duration-150
+Posição: lado direito do Header, antes do avatar
+```
+
+---
+
+## 🚫 Anti-Padrões (Proibido)
+
+```
+❌ Hex literal em componente — usar apenas tokens (bg-bg, text-text-1, etc.)
+❌ Preto puro #000000 ou #0C0B09 — não é cor da Arali
+❌ Dourado #C9A84C — não existe no brand book (era estimado)
+❌ Inter — substituída por DM Sans
+❌ Cormorant Garamond — substituída por Montserrat
+❌ Azul, verde genérico, cinza frio (#6B7280, etc.)
+❌ vinho-light e terra-light com valor único nos dois modos — são diferentes por tema
+❌ tailwind.config.ts — este projeto usa Tailwind v4 com @theme inline
+❌ next/font — este projeto usa TanStack Start + Vite (Google Fonts via @import)
+```
+
+---
+
+## 📦 Recursos
+
+- Brand Book PDF: `docs/assets/Arali-MANUAL-IDT-VISUAL-OFICIAL.pdf`
+- Fontes: Google Fonts — Montserrat, DM Sans, JetBrains Mono
+- Logo SVG: solicitar ao time de marketing da Arali
+- Paleta oficial (4 cores): `#F5ECE6` · `#C77549` · `#683637` · `#412F2D`
+
+---
+
+**Versão**: 1.1
+**Atualizado em**: 2026-04-30
+**Alterações v1.1**:
+- Sistema dual de temas (`:root` = light, `.dark` = dark)
+- Correção: `vinho-light` e `terra-light` com valores distintos por modo
+- Tailwind v4 via `@theme` inline (sem `tailwind.config.ts`)
+- Removido setup Next.js (projeto usa TanStack Start + Vite)
+- Adicionado hook `useTheme` e script anti-flash para `__root.tsx`
+- Aliases legados (`--noir`, `--wood`, `--gold`) mapeados para novos tokens
+- Transições globais especificadas
+- Specs de componente reescritas com tokens semânticos
+- Badges com opacidade Tailwind (`/10`, `/15`, etc.)
+
+**Mantido por**: Marcus Vitorino / Lioma IT
