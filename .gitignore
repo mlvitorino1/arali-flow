@@ -1,0 +1,125 @@
+# ============================================
+# DEPENDENCIES
+# ============================================
+node_modules/
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+.pnpm-store/
+*.tsbuildinfo
+
+# ============================================
+# ENVIRONMENT
+# ============================================
+.env
+.env.local
+.env.*.local
+.env.production.local
+.env.development.local
+!.env.example
+
+# ============================================
+# BUILD OUTPUT
+# ============================================
+.next/
+dist/
+build/
+out/
+.turbo/
+.cache/
+
+# ============================================
+# IDE & EDITOR
+# ============================================
+.vscode/
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# ============================================
+# TESTING
+# ============================================
+coverage/
+.nyc_output/
+*.lcov
+test-results/
+junit.xml
+
+# ============================================
+# LOGS
+# ============================================
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# ============================================
+# OS
+# ============================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ============================================
+# TEMPORARY
+# ============================================
+tmp/
+temp/
+*.tmp
+.versionrc
+
+# ============================================
+# SUPABASE LOCAL
+# ============================================
+.supabase/
+supabase/migrations/
+
+# ============================================
+# SENTRY
+# ============================================
+.sentry-cli-debug.log
+
+# ============================================
+# SENSITIVE DATA
+# ============================================
+*.key
+*.pem
+*.p8
+.credentials/
+secrets/
+
+# ============================================
+# MACOS
+# ============================================
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+# ============================================
+# WINDOWS
+# ============================================
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ============================================
+# LINUX
+# ============================================
+.directory
+.Trash-*
