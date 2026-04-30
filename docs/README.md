@@ -34,15 +34,18 @@
 ## 🎯 Proposta de Valor
 
 ### O Problema
-A **Arali Móveis** — marcenaria de altíssimo padrão — opera projetos complexos que atravessam múltiplas áreas (Comercial, PCP, Engenharia, Suprimentos, Produção, Obra) com:
+A **Arali Móveis** — marcenaria de altíssimo padrão atendendo arquitetos como MK27, Bernardes, Jacobsen, Studio Arthur Casas e Isay Weinfeld — opera 26 projetos simultâneos atravessando múltiplas áreas (Comercial, PCP, Engenharia, Suprimentos, Produção, Obra) com:
 
 - Comunicação fragmentada entre times (WhatsApp, planilhas, e-mail)
-- **Planilhas Excel desatualizadas** controlando informações críticas (ex: Entrada de Recebimento por Projeto)
-- Falta de rastreabilidade do projeto através das etapas
+- **Duas planilhas Excel críticas** carregando milhões de reais em movimento mensal:
+  - "Controle de Entrada de Orçamento e Obra Contratada" (pipeline comercial)
+  - "01A Recebimento Entrada" (caixa por projeto)
+- Confirmações registradas em texto livre tipo "CONFIRMADO VIA WHATSAPP PELA MARIANA DIA 13/02"
+- Falta de rastreabilidade do projeto através das etapas (sufixos OS R/E/CD/OP só na cabeça das pessoas)
 - Decisões importantes perdidas em conversas informais
-- Hierarquia e responsabilidades difusas
+- Hierarquia e responsabilidades difusas entre os 60 usuários
 - Indicadores operacionais inexistentes ou defasados
-- Retrabalho causado por handoffs ruins
+- Retrabalho causado por handoffs ruins entre Comercial → PCP → Engenharia → Produção → Obra
 
 ### A Solução
 **Arali Flow** centraliza toda a operação em um sistema único, onde:
@@ -100,8 +103,25 @@ A **Arali Móveis** — marcenaria de altíssimo padrão — opera projetos comp
 | 16 | **Time composição**: até 10 Integrantes + 2 Líderes + 2 Gestores | ✅ Fechado |
 | 17 | **Teto de infraestrutura**: R$500/mês | ✅ Fechado |
 | 18 | **Prazo go-live MVP**: 4 meses | ✅ Fechado |
+| 19 | **Escala MVP**: 60 usuários ativos, 26 Projetos simultâneos | ✅ Fechado |
+| 20 | **IP do produto**: LIOMA IT (replicável em outras marcenarias premium em Verniz, sempre single-tenant deployment) | ✅ Fechado |
 
 📄 ADRs detalhados: [`docs/DECISIONS/`](./docs/DECISIONS/)
+
+---
+
+## 💼 Contrato Comercial (Lioma Growth)
+
+| Item | Valor |
+|---|---|
+| Diagnóstico | R$ 2.500 (abatido do Setup se fechar contrato) |
+| Setup (após abatimento) | R$ 17.500 em 6 parcelas |
+| Mensalidade | R$ 997/mês |
+| Vigência inicial | 6 meses + renovação automática por mais 6 |
+| LTV mínimo (12 meses) | R$ 17.500 + R$ 11.964 = **R$ 29.464** |
+| LTV com renovação (24 meses) | R$ 17.500 + R$ 23.928 = **R$ 41.428** |
+
+> Status (2026-04-30): apresentação quente, contrato em fase final de negociação. Cronograma das 4 fases inicia oficialmente após assinatura.
 
 ---
 
@@ -575,7 +595,7 @@ Time (1)
 | **Mudança de permissão / role** | ✅ Sim | Supabase Channels | Segurança crítica |
 
 ### Custo / Performance
-Supabase Free aguenta ~200 conexões simultâneas. Pro aguenta 500+. Para **25 usuários em pico**, ficamos folgados.
+Supabase Free aguenta ~200 conexões simultâneas. Pro aguenta 500+. Para **60 usuários ativos com pico estimado de 25-30 simultâneos**, ficamos folgados no Pro.
 
 📄 Detalhes em [`docs/REALTIME_STRATEGY.md`](./docs/REALTIME_STRATEGY.md)
 
@@ -672,9 +692,9 @@ headers: [
 > \* Vercel Hobby tem limites para projetos comerciais. **Recomendação**: começar Hobby, migrar para Pro ($20 = ~R$104) se necessário. Mesmo com Pro: ~R$269/mês ✅
 
 ### Quando Reavaliar
-- **>50 usuários simultâneos** → considerar Vercel Pro
-- DB >8GB → Supabase Team ($599 — só com receita)
-- Anexos >100GB → upgrade Supabase Storage ou migrar para R2/B2
+- **>50 usuários simultâneos em pico** → considerar Vercel Pro (cenário possível com os 60 da Arali em horários de fechamento de proposta)
+- DB >8GB → Supabase Team ($599 — só com receita do contrato + 2º cliente Lioma)
+- Anexos >100GB → upgrade Supabase Storage ou migrar para R2/B2 (provável a partir do Verniz com upload de DWG/PDF da Engenharia)
 
 📄 Detalhes em [`docs/DEPLOYMENT.md`](./docs/DEPLOYMENT.md)
 
@@ -682,83 +702,82 @@ headers: [
 
 ## 🗺️ Roadmap
 
-### 📍 Fase 0 — Fundação (Mês 1)
-- [ ] Checkpoints de descoberta com Arali (12 daillies em 6 meses)
-- [ ] Modelagem completa do domínio (Comercial + PCP + Diretoria)
-- [ ] Branding refinado e Design System inicial
-- [ ] Setup do repositório, CI/CD, ambientes
-- [ ] Auth + Usuários + Times + Permissões + RLS base
-- [ ] Shell do app (Sidebar + Header + Home)
+> Cada etapa carrega o nome de uma operação real da marcenaria. Detalhes completos em [`docs/ROADMAP.md`](./docs/ROADMAP.md) e nos arquivos `docs/PHASE_*.md`.
 
-### 📍 Fase 1 — Comercial (Mês 2)
-- [ ] CRUD de Projetos
-- [ ] Pasta do Projeto (modo operação)
-- [ ] Distribuição de Projetos (Líder e Gestor)
-- [ ] **Ferramenta Piloto: Recebimentos por Projeto** (substitui Excel)
-- [ ] Tasks básicas
-- [ ] Feed do Time + Feed Geral
+### 📍 Etapa 0 — RISCA (Mês 1) — Fundação
+> *A marcação inicial na madeira: define onde tudo vai começar.*
+- Auth + RLS base + Permissões + Shell branded + CI/CD + Higiene de Git
+- 📄 [`docs/PHASE_0_RISCA.md`](./docs/PHASE_0_RISCA.md)
 
-### 📍 Fase 2 — PCP + Integração (Mês 3)
-- [ ] Ambiente PCP completo
-- [ ] Timeline paralela cross-Time visual
-- [ ] Encaminhamento de Posts entre feeds (compartilhado N:N)
-- [ ] Posts automáticos vindos de Tasks (feature flag)
-- [ ] Filtros e busca no Feed
-- [ ] Notificações in-app
+### 📍 Etapa 1 — ESQUADRO (Mês 2) — Comercial
+> *A ferramenta de aferição de 90°: garante o alinhamento.*
+- Pasta do Projeto + Tasks + Distribuição
+- **Ferramenta Recebimentos** (substitui planilha 01A)
+- Módulo Propostas (substitui planilha Controle de Entrada)
+- Feed manual + Forward simplificado
+- 📄 [`docs/PHASE_1_ESQUADRO.md`](./docs/PHASE_1_ESQUADRO.md)
 
-### 📍 Fase 3 — Diretoria + Polimento (Mês 4)
-- [ ] Dashboard executivo (Diretoria) com KPIs
-- [ ] Audit log completo
-- [ ] PWA pronto (manifest, ícones, offline básico)
-- [ ] Testes E2E críticos
-- [ ] Documentação final
-- [ ] **Go-live** com Arali
+### 📍 Etapa 2 — ENCAIXE (Mês 3) — PCP + Realtime
+> *Onde duas peças se conectam com precisão.*
+- Ambiente PCP (Programação + Apontamentos)
+- Timeline Paralela cross-Time
+- Realtime em Feed, Timeline, Tasks, Notificações
+- Forward de Post N:N + Posts automáticos (feature flag)
+- 📄 [`docs/PHASE_2_ENCAIXE.md`](./docs/PHASE_2_ENCAIXE.md)
 
-### 📍 Fase 4 — Pós-MVP (Mês 5+)
-- [ ] Engenharia + Suprimentos + Produção + Obra
-- [ ] Modo offline real para Obra (PWA completo)
-- [ ] **Portal do Arquiteto** (escritórios externos acompanham projetos)
-- [ ] IA assistida (resumos do feed, alertas inteligentes)
-- [ ] Integrações com sistemas legados Arali
-- [ ] Relatórios e exportações avançadas
+### 📍 Etapa 3 — LAPIDAÇÃO (Mês 4) — Diretoria + Go-Live
+> *Lixa fina e polimento: a entrega visível.*
+- Dashboard Diretoria (3 cards principais + drill-down)
+- Aprovações + Audit log
+- PWA completo + Light Mode preparado
+- Testes E2E críticos + Documentação final
+- **Go-live oficial com a Arali**
+- 📄 [`docs/PHASE_3_LAPIDACAO.md`](./docs/PHASE_3_LAPIDACAO.md)
+
+### 📍 Etapa 4 — VERNIZ (Mês 5+) — Pós-MVP + Replicação Lioma
+> *A camada final de proteção e brilho — e a virada para produto Lioma.*
+- Ambientes Engenharia + Suprimentos + Produção + Obra
+- Modo offline real para Obra
+- Portal do Arquiteto
+- IA assistida (resumos de Feed, alertas)
+- Integrações com sistemas legados
+- **Playbook de replicação Lioma** para 2º cliente premium
+- 📄 [`docs/PHASE_4_VERNIZ.md`](./docs/PHASE_4_VERNIZ.md)
 
 ---
 
 ## 🗓️ Cronograma de 4 Meses
 
 ```
-┌───────────┬─────────────────────────────────────────────────┐
-│   MÊS     │                ENTREGAS                          │
-├───────────┼─────────────────────────────────────────────────┤
-│   Mês 1   │  Fundação                                        │
-│           │  • Auth + RLS + Times + Permissões               │
-│           │  • Shell do app + Branding                       │
-│           │  • Checkpoints 1 e 2 com Arali                   │
-├───────────┼─────────────────────────────────────────────────┤
-│   Mês 2   │  Comercial                                       │
-│           │  • Projetos + Pasta do Projeto                   │
-│           │  • Tasks + Distribuição                          │
-│           │  • Ferramenta Recebimentos                       │
-│           │  • Feed básico                                   │
-│           │  • Checkpoints 3 e 4                             │
-├───────────┼─────────────────────────────────────────────────┤
-│   Mês 3   │  PCP + Realtime                                  │
-│           │  • Ambiente PCP completo                         │
-│           │  • Timeline paralela                             │
-│           │  • Realtime Feed + Timeline                      │
-│           │  • Posts automáticos vindos de Tasks             │
-│           │  • Checkpoints 5 e 6                             │
-├───────────┼─────────────────────────────────────────────────┤
-│   Mês 4   │  Diretoria + Go-Live                             │
-│           │  • Dashboard executivo + KPIs                    │
-│           │  • PWA + polimento                               │
-│           │  • Testes + auditoria                            │
-│           │  • Deploy produção + Onboarding                  │
-│           │  • Checkpoints 7 e 8                             │
-└───────────┴─────────────────────────────────────────────────┘
+┌───────────┬───────────────┬─────────────────────────────────────┐
+│   MÊS     │   ETAPA       │        ENTREGAS                      │
+├───────────┼───────────────┼─────────────────────────────────────┤
+│   Mês 1   │   RISCA       │  Auth + RLS + Times + Permissões    │
+│           │               │  Shell branded + CI/CD              │
+│           │               │  Checkpoints 01 e 02 com Arali      │
+├───────────┼───────────────┼─────────────────────────────────────┤
+│   Mês 2   │   ESQUADRO    │  Pasta do Projeto + Tasks           │
+│           │               │  Ferramenta Recebimentos (✨ killer) │
+│           │               │  Módulo Propostas + Feed manual     │
+│           │               │  Checkpoints 03 e 04                 │
+├───────────┼───────────────┼─────────────────────────────────────┤
+│   Mês 3   │   ENCAIXE     │  Ambiente PCP completo              │
+│           │               │  Timeline paralela cross-Time        │
+│           │               │  Realtime + Notificações in-app      │
+│           │               │  Checkpoints 05 e 06                 │
+├───────────┼───────────────┼─────────────────────────────────────┤
+│   Mês 4   │   LAPIDAÇÃO   │  Dashboard Diretoria + KPIs         │
+│           │               │  PWA + Audit log + Testes E2E       │
+│           │               │  Treinamento dos 60 usuários        │
+│           │               │  Checkpoints 07 e 08 + Go-Live      │
+├───────────┼───────────────┼─────────────────────────────────────┤
+│   Mês 5+  │   VERNIZ      │  Engenharia + Suprimentos +          │
+│           │               │  Produção + Obra + Portal Arquiteto │
+│           │               │  IA assistida + Replicação Lioma    │
+└───────────┴───────────────┴─────────────────────────────────────┘
 ```
 
-> ⚠️ Solo dev em 4 meses para 3 ambientes é **viável mas apertado**. A IA assistida (Claude Code, Cursor) é parte da estratégia, não opcional. Ver [`docs/ai/`](./docs/ai/).
+> ⚠️ Solo dev em 4 meses para 3 ambientes é **viável mas apertado** (480h totais com 6h/dia × 5 dias × 16 semanas). A IA assistida (Claude Code, Codex) é parte da estratégia, não opcional. Ver [`docs/ai/`](./docs/ai/).
 
 ---
 
@@ -816,68 +835,13 @@ Toda documentação técnica em `/docs`. Pensada para ser **consultiva para huma
 ### Documentação Técnica
 | Arquivo | Propósito |
 |---|---|
+| [`docs/ROADMAP.md`](./docs/ROADMAP.md) | 🗺️ Visão das 5 etapas (Risca → Esquadro → Encaixe → Lapidação → Verniz) |
+| [`docs/PHASE_0_RISCA.md`](./docs/PHASE_0_RISCA.md) | Detalhe Etapa 0 — Fundação |
+| [`docs/PHASE_1_ESQUADRO.md`](./docs/PHASE_1_ESQUADRO.md) | Detalhe Etapa 1 — Comercial |
+| [`docs/PHASE_2_ENCAIXE.md`](./docs/PHASE_2_ENCAIXE.md) | Detalhe Etapa 2 — PCP + Realtime |
+| [`docs/PHASE_3_LAPIDACAO.md`](./docs/PHASE_3_LAPIDACAO.md) | Detalhe Etapa 3 — Diretoria + Go-Live |
+| [`docs/PHASE_4_VERNIZ.md`](./docs/PHASE_4_VERNIZ.md) | Detalhe Etapa 4 — Pós-MVP + Replicação Lioma |
 | [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) | Arquitetura detalhada, diagramas C4 |
 | [`docs/BRANDING.md`](./docs/BRANDING.md) | 🎨 Identidade visual, cores, tipografia, tom |
 | [`docs/DOMAIN_MODEL.md`](./docs/DOMAIN_MODEL.md) | Modelo de domínio: Projeto, Pasta, Task, Time |
-| [`docs/DATABASE.md`](./docs/DATABASE.md) | Schema, índices, relacionamentos |
-| [`docs/SECURITY.md`](./docs/SECURITY.md) | Políticas de segurança, RLS, threat model |
-| [`docs/PERMISSIONS.md`](./docs/PERMISSIONS.md) | Matriz de permissões |
-| [`docs/REALTIME_STRATEGY.md`](./docs/REALTIME_STRATEGY.md) | Estratégia de Realtime por módulo |
-| [`docs/DEPLOYMENT.md`](./docs/DEPLOYMENT.md) | Pipeline, ambientes, custos |
-| [`docs/RUNBOOK.md`](./docs/RUNBOOK.md) | Operação, incidentes |
-| [`docs/CONTRIBUTING.md`](./docs/CONTRIBUTING.md) | Fluxo de contribuição |
-| [`docs/STYLE_GUIDE.md`](./docs/STYLE_GUIDE.md) | Padrões de código |
-| [`docs/CHANGELOG.md`](./docs/CHANGELOG.md) | Histórico de versões |
-| [`docs/DECISIONS/`](./docs/DECISIONS/) | ADRs |
-
-### 🤖 Documentação para IA Assistida (`docs/ai/`)
-
-> **Crítico para solo dev**. Esses arquivos são alimentados como contexto em Claude Code, Cursor, Copilot, GPT — fazem a IA entender o projeto e gerar código alinhado.
-
-| Arquivo | Propósito |
-|---|---|
-| [`docs/ai/CLAUDE.md`](./docs/ai/CLAUDE.md) | **Contexto principal** — projeto, stack, regras, estilo |
-| [`docs/ai/CONTEXT.md`](./docs/ai/CONTEXT.md) | Modelo de domínio simplificado |
-| [`docs/ai/PATTERNS.md`](./docs/ai/PATTERNS.md) | Padrões e templates recorrentes |
-| [`docs/ai/PROMPTS.md`](./docs/ai/PROMPTS.md) | Biblioteca de prompts produtivos |
-| [`docs/ai/GLOSSARY.md`](./docs/ai/GLOSSARY.md) | Glossário (marcenaria + sistema) |
-
-> 💡 **Use sempre como anexo no prompt**: "Considere o contexto em `docs/ai/CLAUDE.md` e os padrões em `docs/ai/PATTERNS.md`."
-
----
-
-## 🆘 Suporte
-
-### Para dúvidas técnicas ou bugs
-Abra issue no GitHub com template adequado:
-- 🐛 **Bug Report**
-- ✨ **Feature Request**
-- ❓ **Question**
-- 🔒 **Security** *(canal privado em `SECURITY.md`)*
-
-### Para questões estratégicas / produto
-- **Marcus Vitorino** — Founder / Tech Lead
-- **Cliente: Arali Móveis** — Checkpoints quinzenais (12 daillies em 6 meses)
-
-### Vulnerabilidades de Segurança
-**Não abra issue pública.** Reporte conforme protocolo em [`docs/SECURITY.md`](./docs/SECURITY.md).
-
----
-
-## 📄 License
-
-**Proprietary** — Todos os direitos reservados.
-
-Este software é propriedade exclusiva da LIOMA IT. Qualquer uso, cópia, modificação, distribuição ou engenharia reversa não autorizados são estritamente proibidos.
-
-© 2026 LIOMA IT. All rights reserved.
-
----
-
-<div align="center">
-
-**Arali Flow** — *Sistema operacional digital para marcenaria de altíssimo padrão.*
-
-Feito com 🪵 + ⚡ + 🤖
-
-</div>
+| [`d

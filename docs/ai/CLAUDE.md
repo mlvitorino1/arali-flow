@@ -6,12 +6,47 @@
 
 ## 🎯 O que é este projeto
 
-**Arali Flow** é o **sistema operacional digital interno** da **Arali Móveis** — uma marcenaria de altíssimo padrão. O sistema digitaliza e orquestra o fluxo de Projetos através de Ambientes (departamentos) com Times, Tasks, Ferramentas e Feed.
+**Arali Flow** é o **sistema operacional digital interno** da **Arali Móveis** — uma marcenaria de altíssimo padrão (clientela: MK27, Bernardes, Jacobsen, Studio Arthur Casas, Isay Weinfeld). O sistema digitaliza e orquestra o fluxo de Projetos através de Ambientes (departamentos) com Times, Tasks, Ferramentas e Feed.
 
-**Modelo**: Single-tenant (uso exclusivo da Arali, NÃO é SaaS).  
-**Idioma**: 100% PT-BR (interface, código de domínio, comentários de domínio).  
-**Prazo**: MVP em 4 meses.  
-**Time**: Solo dev (Marcus Vitorino) + IA assistida.
+**Modelo de produto**: Single-tenant por instância (uso exclusivo da Arali nesta instância). **Propriedade intelectual: LIOMA IT** — o produto pode ser replicado em outras marcenarias premium em Verniz (Fase 4), sempre como deployment single-tenant isolado.
+**Idioma**: 100% PT-BR (interface, código de domínio, comentários de domínio).
+**Prazo**: MVP em 4 meses (cronograma inicia oficialmente quando o contrato Lioma Growth com a Arali for assinado).
+**Time**: Solo dev (Marcus Vitorino) — 6h/dia × 5 dias úteis = 30h/semana = ~480h totais para o MVP.
+**Escala MVP**: 60 usuários ativos previstos, 26 Projetos em andamento simultâneos.
+
+### 💰 Contrato Lioma Growth com a Arali
+- **Diagnóstico**: R$ 2.500 (abatido do Setup se fechar)
+- **Setup**: R$ 17.500 (após abatimento) em 6 parcelas
+- **Mensalidade**: R$ 997 × 12 meses, com renovação automática por mais 6 meses
+- **Status atual** (2026-04-30): apresentação quente, contrato não assinado ainda
+
+### 🪵 Vocabulário Real da Arali (CRÍTICO — usar em código e UI)
+
+A Arali já tem um vocabulário operacional consolidado em planilhas. **Respeitar literalmente.**
+
+**Estrutura de OS** (Ordem de Serviço):
+- `OS{numero}` — sempre 5 dígitos (ex: `OS12513`)
+- Sufixos compõem revisões e etapas:
+  - `R{nn}` — Revisão (ex: `OS12513 R05` = revisão 5 da OS 12513)
+  - `E{nn}` — Etapa/Escopo (ex: `OS12320 E12` = etapa 12)
+  - `OP {nn}` — Ordem de Produção (ex: `OS12513 E03 OP 01`)
+  - `CD` — Complemento de Detalhamento (ex: `OS12320 E22 CD R01`)
+- **No banco**: armazenar `numero_os_raw` como string fiel + parser secundário em view para extrair partes.
+
+**Status de Proposta**: `em_pausa | enviada | nfp | nova | aprovada | recusada`
+**Status Comercial**: `iniciando | concorrencia | em_execucao | execucao | em_pausa | sem_status`
+**Tipos de Proposta**: `pm | pn | fr | mob | fch | br | portas | portoes | batentes | forro | manutencao | outro` (validar siglas com Cuca/Bianca)
+
+**Stakeholders externos** (modelar como `parceiros` com `tipo`):
+- **Arquitetura**: MK27, Bernardes, Jacobsen, Arthur Casas, Isay Weinfeld, Andrade Moretin, Felipe Caboclo, Studio MK27, etc.
+- **Construtora**: Alle, MFC, Hauz, Laer, Fairbanks, Frozino, Stewart, etc.
+- **Gerenciadora**: Canal, Squaly, Cimenge, Fitplan, MS Torres, Dox, Pentágono, etc.
+
+**Time Comercial real** (validar nomes oficiais com a Arali no Checkpoint 01):
+- Propostistas: Suelen, Bianca, Franciele, Lisandra
+- Gestor: Cuca
+
+**Notas Fiscais**: NFE (entrada de mercadoria) e NFS (serviço) — frequentemente vêm pareadas no mesmo recebimento; a Ferramenta Recebimentos deve **detectar pareamento, não tratar como duplicata**.
 
 ---
 
@@ -542,6 +577,22 @@ Quando gerar código, **NUNCA**:
 
 ---
 
+## 🗺️ Etapas do Roadmap (nomes oficiais)
+
+O cronograma de 4 meses é dividido em 4 etapas + 1 contínua, todas com metáfora de marcenaria. **Use esses nomes em commits, branches e conversas.**
+
+| # | Etapa | Foco | Doc | Branch padrão |
+|---|---|---|---|---|
+| 0 | **RISCA** | Fundação técnica + branding aplicado | [`docs/PHASE_0_RISCA.md`](../PHASE_0_RISCA.md) | `feature/risca/*` |
+| 1 | **ESQUADRO** | Comercial + Ferramenta Recebimentos (killer demo) | [`docs/PHASE_1_ESQUADRO.md`](../PHASE_1_ESQUADRO.md) | `feature/esquadro/*` |
+| 2 | **ENCAIXE** | PCP + Timeline paralela + Realtime | [`docs/PHASE_2_ENCAIXE.md`](../PHASE_2_ENCAIXE.md) | `feature/encaixe/*` |
+| 3 | **LAPIDAÇÃO** | Diretoria + KPIs + PWA + Go-Live | [`docs/PHASE_3_LAPIDACAO.md`](../PHASE_3_LAPIDACAO.md) | `feature/lapidacao/*` |
+| 4 | **VERNIZ** | Engenharia + Suprimentos + Produção + Obra + Portal Arquiteto + IA + Replicação Lioma | [`docs/PHASE_4_VERNIZ.md`](../PHASE_4_VERNIZ.md) | `feature/verniz/*` |
+
+📄 Visão geral: [`docs/ROADMAP.md`](../ROADMAP.md)
+
+---
+
 ## 🔗 Documentação Relacionada
 
 | Onde buscar | Para quê |
@@ -577,6 +628,6 @@ Se a resposta for "não" em qualquer um, **repensar antes de propor**.
 
 ---
 
-**Versão**: 1.0  
-**Última atualização**: 2026-04-29  
+**Versão**: 1.1
+**Última atualização**: 2026-04-30
 **Autor**: Marcus Vitorino + Copiloto IA
