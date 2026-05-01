@@ -91,7 +91,8 @@ Quando gerar código, **sempre respeite**:
 - **Edge Functions** (Deno) — para tarefas server-side específicas
 
 ### DevOps
-- **Vercel** — hosting do frontend
+- **Vercel** — hosting do frontend (Development, Preview, Production)
+- **v0.dev (Vercel)** — geração de páginas e componentes UI via prompt. Workflow: gerar em v0.dev → copiar para o repositório → ajustar tokens/domínio → commitar. **Não deploy direto de v0 — todo código passa pelo repositório.**
 - **GitHub Actions** — CI (lint + typecheck + build + tests)
 - **Sentry** — observabilidade
 - **pnpm** — package manager (NÃO use npm ou yarn)

@@ -1,26 +1,74 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ============================================================
+   ARALI FLOW — Design Tokens Oficiais
+   Fonte: Brand Book Arali Móveis (Fev/2026)
+   ============================================================ */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* ── Paleta Arali (4 cores oficiais) ── */
+  --color-creme:     #F5ECE6; /* texto principal, cor de papel          */
+  --color-terracota: #C77549; /* acento quente, CTAs, chips de OS       */
+  --color-vinho:     #683637; /* primário, navegação ativa, autoridade  */
+  --color-marrom:    #412F2D; /* base escura do sistema                 */
+
+  /* ── Variações de superfície (dark-first) ── */
+  --color-surface-900: #1A1210;
+  --color-surface-800: #261A18;
+  --color-surface-700: #33201D;
+  --color-surface-600: #412F2D;
+
+  /* ── Texto ── */
+  --color-text-primary:   #F5ECE6;
+  --color-text-secondary: #C9A99A;
+  --color-text-muted:     #8C6B63;
+
+  /* ── Feedback ── */
+  --color-success: #5A9E72;
+  --color-warning: #C8903A;
+  --color-error:   #B84444;
+  --color-info:    #4A82A8;
+
+  /* ── Tipografia ── */
+  --font-display: var(--font-montserrat);
+  --font-body:    var(--font-dm-sans);
+  --font-mono:    var(--font-jetbrains);
+
+  /* ── Radius ── */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ── Base ── */
+:root {
+  color-scheme: dark;
 }
 
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #1A1210;
+  color: #F5ECE6;
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Scrollbar discreta ── */
+::-webkit-scrollbar        { width: 4px; height: 4px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: #412F2D; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #683637; }
+
+/* ── Focus ring acessível ── */
+:focus-visible {
+  outline: 2px solid #C77549;
+  outline-offset: 2px;
+}
+
+/* ── Seleção de texto ── */
+::selection {
+  background-color: #683637;
+  color: #F5ECE6;
 }
