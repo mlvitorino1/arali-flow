@@ -10,24 +10,25 @@
 
 1. [Proposta de Valor](#-proposta-de-valor)
 2. [Decisões Arquiteturais Consolidadas](#-decisões-arquiteturais-consolidadas)
-3. [Getting Started](#-getting-started)
-4. [Pré-requisitos](#-pré-requisitos)
-5. [Setup do Ambiente](#-setup-do-ambiente)
-6. [Setup Local](#-setup-local)
-7. [Comandos Disponíveis](#-comandos-disponíveis)
-8. [Arquitetura do Projeto](#-arquitetura-do-projeto)
-9. [Modelo de Domínio](#-modelo-de-domínio)
-10. [Permissões e Hierarquia](#-permissões-e-hierarquia)
-11. [Realtime — Critério Técnico](#-realtime--critério-técnico)
-12. [Segurança](#-segurança)
-13. [Custos de Infraestrutura](#-custos-de-infraestrutura)
-14. [Roadmap](#-roadmap)
-15. [Cronograma de 4 Meses](#-cronograma-de-4-meses)
-16. [Contribuindo](#-contribuindo)
-17. [Padrões de Código](#-padrões-de-código)
-18. [Documentação Adicional](#-documentação-adicional)
-19. [Suporte](#-suporte)
-20. [License](#-license)
+3. [Contrato Comercial](#-contrato-comercial)
+4. [Getting Started](#-getting-started)
+5. [Pré-requisitos](#-pré-requisitos)
+6. [Setup do Ambiente](#-setup-do-ambiente)
+7. [Setup Local](#-setup-local)
+8. [Comandos Disponíveis](#-comandos-disponíveis)
+9. [Arquitetura do Projeto](#-arquitetura-do-projeto)
+10. [Modelo de Domínio](#-modelo-de-domínio)
+11. [Permissões e Hierarquia](#-permissões-e-hierarquia)
+12. [Realtime — Critério Técnico](#-realtime--critério-técnico)
+13. [Segurança](#-segurança)
+14. [Custos de Infraestrutura](#-custos-de-infraestrutura)
+15. [Roadmap](#-roadmap)
+16. [Cronograma de 4 Meses](#-cronograma-de-4-meses)
+17. [Contribuindo](#-contribuindo)
+18. [Padrões de Código](#-padrões-de-código)
+19. [Documentação Adicional](#-documentação-adicional)
+20. [Suporte](#-suporte)
+21. [License](#-license)
 
 ---
 
@@ -87,7 +88,7 @@ A **Arali Móveis** — marcenaria de altíssimo padrão atendendo arquitetos co
 |---|---|---|
 | 01 | **Single-tenant** — produto interno exclusivo Arali (sem multi-tenancy) | ✅ Fechado |
 | 02 | **Sem módulo Fiscal/Contábil** no MVP — Arali continua usando sistemas antigos | ✅ Fechado |
-| 03 | **Stack frontend**: Next.js **15 LTS** (App Router) — *recomendação técnica* | ✅ Fechado |
+| 03 | **Stack frontend**: Next.js **15 LTS** (App Router) — *runtime de produção fixo*. Geração inicial de UI sob avaliação de novas abordagens (Claude Suite/Code, Cursor, v0 by Vercel, Antigravity, Bubble) após atrito na migração via Lovable. Prompt mestre versionado em [`docs/ai/PROMPT_FRONTEND_SYSTEM_DESIGN.md`](./docs/ai/PROMPT_FRONTEND_SYSTEM_DESIGN.md) — qualquer ferramenta usada deve gerar código compatível com o runtime fixo. Decisão registrada em [`docs/DECISIONS/ADR-001-stack-frontend.md`](./docs/DECISIONS/ADR-001-stack-frontend.md). | ✅ Fechado |
 | 04 | **Stack backend**: Supabase (PostgreSQL + Auth + Storage + Realtime) | ✅ Fechado |
 | 05 | **Hosting**: Vercel (frontend) + Supabase (backend) | ✅ Fechado |
 | 06 | **MVP escopo**: Diretoria + Comercial + PCP (3 ambientes, não 7) | ✅ Fechado |
@@ -110,18 +111,19 @@ A **Arali Móveis** — marcenaria de altíssimo padrão atendendo arquitetos co
 
 ---
 
-## 💼 Contrato Comercial (Lioma Growth)
+## 💼 Contrato Comercial
 
-| Item | Valor |
-|---|---|
-| Diagnóstico | R$ 2.500 (abatido do Setup se fechar contrato) |
-| Setup (após abatimento) | R$ 17.500 em 6 parcelas |
-| Mensalidade | R$ 997/mês |
-| Vigência inicial | 6 meses + renovação automática por mais 6 |
-| LTV mínimo (12 meses) | R$ 17.500 + R$ 11.964 = **R$ 29.464** |
-| LTV com renovação (24 meses) | R$ 17.500 + R$ 23.928 = **R$ 41.428** |
-
-> Status (2026-04-30): apresentação quente, contrato em fase final de negociação. Cronograma das 4 fases inicia oficialmente após assinatura.
+> **Modelo comercial e dados financeiros do cliente NÃO ficam neste repositório.**
+>
+> O contrato é tratado como ativo do **departamento Lioma IT** (área comercial), com versionamento próprio. Esta seção existe apenas para deixar explícito que o cronograma técnico (ver [Cronograma](#-cronograma-de-4-meses)) é dependente do marco de assinatura.
+>
+> - **Modelo de contrato vigente**: `MODELO_CONTRATO_LIOMA_IT.md` (gerido pela área comercial Lioma IT)
+> - **Tipo**: Personalizado por cliente, fases de Diagnóstico → MVP → Produção
+> - **Vigência padrão**: 6 meses (piloto) + 12 meses (produção) = 18 meses totais
+> - **Suporte incluso**: Atendimento direto via WhatsApp com SLA de same-day, tratamento de erro com causa raiz, dúvidas e pequenas alterações
+> - **Mudanças de escopo**: Tratadas como projeto separado (proposta em anexo)
+>
+> Status do cliente atual e detalhes financeiros são acompanhados internamente.
 
 ---
 
@@ -276,29 +278,91 @@ pnpm dev
 
 ## 🏗️ Arquitetura do Projeto
 
-### Visão Macro
+### Princípios Arquiteturais
+
+1. **Single-tenant deployment, multi-tenant ready code** — cada cliente Lioma roda em sua própria instância Supabase + Vercel, mas o código é escrito assumindo que `tenant_id` (implícito) existe em toda RLS policy. Replicação para o 2º cliente premium custa apenas provisionamento.
+2. **Server-first by default** — Server Components, Server Actions e Edge Functions são a regra. Client Components (`"use client"`) só onde há interatividade real (forms, modais, listas com filtro local, tempo real).
+3. **RLS como única fonte de verdade de autorização** — nada de checar permissão duas vezes (no client e no banco). O banco é a verdade. O client confia na resposta filtrada.
+4. **Realtime cirúrgico** — Realtime ligado apenas onde colaboração simultânea muda a UX. Resto é refetch ou polling. Custo previsível.
+5. **Observabilidade desde o dia 1** — Sentry + audit logs + Supabase logs + Vercel Analytics. Sem deploy sem dashboards.
+6. **Domínio em PT-BR, infra em EN** — `pasta_projeto`, `tasks`, `integrantes_times` (PT) coexistem com `lib/supabase/server-client.ts`, `hooks/use-realtime-feed.ts` (EN). Reduz ambiguidade para devs e IA assistida.
+7. **Mobile-first** — toda tela é projetada primeiro para 375px, depois desktop. PWA desde o MVP, com base offline preparada para Obra na Etapa 4.
+
+### Visão Macro (C4 — Container)
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                      CLIENTE (PWA)                       │
-│   Next.js 15 (App Router) + React Server Components      │
-│   Tailwind + Shadcn UI + Framer Motion + TanStack Query  │
-└──────────────────────────┬──────────────────────────────┘
-                           │
-                           │ HTTPS / WebSocket (Realtime)
-┌──────────────────────────▼──────────────────────────────┐
-│                      VERCEL EDGE                         │
-│        Next.js Server Actions + Route Handlers           │
-└──────────────────────────┬──────────────────────────────┘
-                           │
-┌──────────────────────────▼──────────────────────────────┐
-│                       SUPABASE                           │
-│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌────────────┐ │
-│  │PostgreSQL│ │   Auth   │ │ Storage  │ │   Edge     │ │
-│  │  + RLS   │ │          │ │          │ │ Functions  │ │
-│  └──────────┘ └──────────┘ └──────────┘ └────────────┘ │
-│         Realtime (apenas Feed e Timeline)                │
-└─────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│                     USUÁRIO (60 contas)                       │
+│   Mobile (PWA) ── Desktop (PWA) ── Diretoria (Desktop)        │
+└──────────────────────────────┬───────────────────────────────┘
+                               │  HTTPS + WSS (Realtime)
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│                     CLOUDFLARE (Free)                         │
+│        DNS + Proxy + WAF básico + DDoS Protection             │
+└──────────────────────────────┬───────────────────────────────┘
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│                   VERCEL (Edge + Node)                        │
+│  ┌────────────────────────────────────────────────────────┐  │
+│  │  Next.js 15 App Router                                  │  │
+│  │  ├── React Server Components (default)                  │  │
+│  │  ├── Server Actions (mutations)                         │  │
+│  │  ├── Route Handlers (webhooks, integrações)             │  │
+│  │  └── Client Components (forms, realtime, interatividade)│  │
+│  │                                                          │  │
+│  │  UI: Tailwind + Shadcn UI + Framer Motion + Lucide      │  │
+│  │  Data: TanStack Query (client) + RSC cache (server)     │  │
+│  │  Forms: React Hook Form + Zod                            │  │
+│  └────────────────────────────────────────────────────────┘  │
+└──────────────────────────────┬───────────────────────────────┘
+                               ▼
+┌──────────────────────────────────────────────────────────────┐
+│                       SUPABASE (Pro)                          │
+│  ┌────────────┬────────────┬────────────┬─────────────────┐  │
+│  │ PostgreSQL │    Auth    │  Storage   │ Edge Functions  │  │
+│  │   + RLS    │  (JWT+MFA) │ (signed)   │     (Deno)      │  │
+│  ├────────────┴────────────┴────────────┴─────────────────┤  │
+│  │  Realtime Channels (Feed, Timeline, Tasks, Notif, RBAC)  │  │
+│  ├──────────────────────────────────────────────────────────┤  │
+│  │  Materialized Views (KPIs Diretoria, refresh 5min)       │  │
+│  │  Triggers (audit log, timeline events, notif fan-out)    │  │
+│  │  Helper Functions (is_diretoria, is_lider_de_time, ...)  │  │
+│  └──────────────────────────────────────────────────────────┘  │
+└──────────────────────────┬───────────────────────────────────┘
+                           ▼
+┌──────────────────────────────────────────────────────────────┐
+│                  OBSERVABILIDADE & SUPORTE                    │
+│   Sentry (errors/perf) ── Vercel Analytics ── Supabase Logs   │
+│             Resend (email) ── Slack webhook (alertas crit.)   │
+└──────────────────────────────────────────────────────────────┘
+```
+
+### Camadas Lógicas
+
+| Camada | Responsabilidade | Tecnologia | Onde mora |
+|---|---|---|---|
+| **Presentation** | Renderizar UI, capturar input | RSC + Client Components | `app/`, `components/` |
+| **Application** | Orquestrar use cases | Server Actions, Route Handlers | `app/api/`, `server/actions/` |
+| **Domain** | Regras de negócio puras | TypeScript funcional | `server/services/`, `lib/domain/` |
+| **Persistence** | Acesso a dados | Supabase client + Postgres | `lib/supabase/`, `server/queries/` |
+| **Authorization** | RLS + RBAC | PostgreSQL policies + helpers | `supabase/policies/`, `lib/permissions/` |
+| **Realtime** | Pub/sub cirúrgico | Supabase Channels | `hooks/use-realtime-*.ts` |
+| **Observability** | Logs, traces, métricas | Sentry + Supabase logs | `lib/observability/` |
+
+### Fluxo Crítico — "Distribuir Projeto a Time" (exemplo)
+
+```
+1. Líder/Gestor clica "Atribuir Time" na Pasta do Projeto
+2. Client Component → Server Action distribuirProjetoAoTime(projetoId, timeId)
+3. Server Action valida com Zod schema
+4. Server Action chama service.distribuirProjeto() (domain)
+5. Service consulta permissão via lib/permissions (cache local)
+6. Service grava em projetos_times (RLS bloqueia se permissão faltar)
+7. Trigger Postgres cria evento na timeline + notificação
+8. Realtime Channel publica evento → todos os clients na pasta do projeto recebem
+9. Server Action retorna { ok: true } → revalidatePath('/projetos/:id/pasta')
+10. Audit log gravado assincronamente (Edge Function)
 ```
 
 ### Domínios do Sistema
@@ -427,42 +491,112 @@ arali-flow/
 
 ### Layout de Navegação (Mobile-First)
 
+A Sidebar é **persistente em desktop** (≥1024px), **drawer deslizante em mobile** (<1024px), com badges de contadores em tempo real (notificações, tasks vencidas, posts não lidos no feed do time).
+
 **Sidebar — Itens (MVP):**
-- 🏠 **Home** — Cards de métricas pessoais + Feed do Time + Feed Geral
-- 📁 **Projetos** — Lista de projetos atribuídos ao Time *(Líderes/Gestores podem distribuir)*
-- 👥 **Time** — Página do Time com cards de métricas
-- 📰 **Feed Geral** — Todos os posts da empresa
-- ⚙️ **Configurações** — *(somente Admins/Gestores/Diretoria)*
+
+| Ordem | Item | Ícone | Acesso | Conteúdo | Badges |
+|---|---|---|---|---|---|
+| 1 | **Home** | 🏠 | Todos | Cards pessoais (minhas tasks, meus projetos, KPIs do meu Time) + Feed do Time fixado no topo + atalho rápido para Feed Geral | Tasks vencendo hoje |
+| 2 | **Projetos** | 📁 | Todos | Lista de Projetos onde o Integrante atua. Líder/Gestor vê todos do Time + distribuição. Diretoria vê todos. Filtros: Status, Prazo, Time, Cliente. | Projetos com revisão pendente |
+| 3 | **Meu Time** | 👥 | Todos | Página do Time: composição (Gestores/Líderes/Integrantes), backlog agregado de tasks, métricas operacionais, **Ferramentas do Time** (Recebimentos, Propostas, etc) | — |
+| 4 | **Ambientes** | 🏛️ | Diretoria, Gestor, Admin | Acesso cross-time: Diretoria, Comercial, PCP. Cada Ambiente tem suas Ferramentas próprias e métricas agregadas. | Alertas críticos por ambiente |
+| 5 | **Feed Geral** | 📰 | Todos | Timeline social da empresa toda (posts, encaminhamentos, menções, reações). Filtros: ambiente, time, autor, tag, projeto. | Posts não lidos com menção a você |
+| 6 | **Notificações** | 🔔 | Todos | Inbox unificada: menções, tasks atribuídas, mudanças de status, distribuição de projeto, alertas de revisão | Não lidas |
+| 7 | **Configurações** | ⚙️ | Admin, Gestor, Diretoria | Usuários, Times, Permissões, Ferramentas habilitadas, Audit log, integrações | — |
+
+**Footer da Sidebar (sempre visível):**
+- Avatar + nome do usuário
+- Toggle dark/light mode (light preparado para Etapa 3)
+- Atalho rápido "Reportar problema" → abre formulário direto (vai pra Slack do Marcus)
+- Logout
+
+**Comportamento Especial:**
+- Diretoria e Gestores veem item adicional **"Visão Cross-Time"** na Home (drill-down por ambiente).
+- Líder de Time vê seção **"Distribuir Projetos"** dentro de **Projetos** (toggle no topo).
+- Integrante NÃO vê **Ambientes** na sidebar (escopo por design — vê apenas seu Time e Pastas onde atua).
 
 ### Pasta do Projeto — Modo Operação
 
-Quando um Integrante clica num Projeto, abre a **Pasta do Projeto em modo operação**:
+A **Pasta do Projeto** é a unidade central de trabalho do sistema. Quando um Integrante clica em um Projeto, ele entra no **modo operação** dessa pasta — o equivalente digital de "puxar a pasta física do armário e abrir na mesa".
+
+#### Conceito
+
+> Uma Pasta do Projeto é o **container vivo** que reúne todos os artefatos, tasks, comunicações e ferramentas relacionados a um Projeto, organizados em uma **Timeline Paralela** onde múltiplos Times trabalham simultaneamente sem se bloquearem.
+
+#### Anatomia da Pasta
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│  ← Voltar    PROJETO: Apartamento Vila Nova Conceição     │
-├──────────────────────────────────────────────────────────┤
-│  [Timeline] [Tasks] [Ferramentas] [Documentos] [Histórico]│
-├──────────────────────────────────────────────────────────┤
-│  Cliente: ...     Status: Em produção (Paralelo)          │
-│  Times ativos: Comercial • PCP • Engenharia               │
-│                                                            │
-│  ▼ TIMELINE PARALELA                                       │
-│  ┌─────────────┬────────────────────────────────────┐    │
-│  │ Comercial   │ ████████░░░░░░░░░░ 60%             │    │
-│  │ PCP         │ ████░░░░░░░░░░░░░░ 25%             │    │
-│  │ Engenharia  │ ████████████░░░░░░ 80%             │    │
-│  └─────────────┴────────────────────────────────────┘    │
-│                                                            │
-│  ▼ MINHAS TASKS NESTE PROJETO (3)                          │
-│  □ Validar planilha de recebimentos    Vence: 02/05       │
-│  □ Aprovar proposta revisada           Vence: 30/04       │
-│  ☑ Conferir contrato assinado          Concluída          │
-│                                                            │
-│  ▼ FERRAMENTAS DO MEU TIME                                 │
-│  [💰 Recebimentos] [📋 Propostas] [📑 Contratos]          │
-└──────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────┐
+│  ← Voltar     PROJETO: Apartamento Vila Nova Conceição          │
+│               Cliente: Studio Arthur Casas  •  OS: 2026-0042    │
+│               Status: 🟢 Em produção (3 times paralelos)         │
+├────────────────────────────────────────────────────────────────┤
+│  [Timeline] [Tasks] [Ferramentas] [Documentos] [Feed] [Histórico]│
+├────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  ▼ HEADER FIXO (sticky)                                          │
+│  Times ativos: Comercial • PCP • Engenharia                      │
+│  Prazo cliente: 18/08/2026     Saúde do projeto: 🟢 No prazo    │
+│  Última atualização: há 12 minutos por Mariana (Comercial)       │
+│                                                                  │
+│  ▼ TIMELINE PARALELA (cross-Time, atualiza em realtime)          │
+│  ┌────────────┬───────────────────────────────────┬────────┐   │
+│  │ Comercial  │ ████████░░░░░░░░░░░░░░░░░░  60%   │ 🟢     │   │
+│  │ PCP        │ ████░░░░░░░░░░░░░░░░░░░░░░  25%   │ 🟡     │   │
+│  │ Engenharia │ ████████████░░░░░░░░░░░░░░  80%   │ 🟢     │   │
+│  │ Suprimentos│ ░░░░░░░░░░░░░░░░░░░░░░░░░░   0%   │ ⚫     │   │
+│  └────────────┴───────────────────────────────────┴────────┘   │
+│  ⚠️ 1 revisão pendente (Comercial → corrigir medida do nicho)   │
+│                                                                  │
+│  ▼ MINHAS TASKS NESTE PROJETO (3 abertas)                        │
+│  🔴 Validar planilha de recebimentos       Venc: 02/05  P0       │
+│  🟡 Aprovar proposta revisada               Venc: 30/04  P1       │
+│  ✅ Conferir contrato assinado              Concluída em 28/04   │
+│                                                                  │
+│  ▼ FERRAMENTAS DO MEU TIME (Comercial)                           │
+│  [💰 Recebimentos] [📋 Propostas] [📑 Contratos]                │
+│                                                                  │
+│  ▼ ATIVIDADE RECENTE (últimas 24h)                               │
+│  • Carlos (PCP) atualizou status de 'Programar serralheria'      │
+│  • Mariana (Comercial) anexou contrato assinado.pdf              │
+│  • Engenharia concluiu 3 tasks                                    │
+│                                                                  │
+└────────────────────────────────────────────────────────────────┘
 ```
+
+#### Abas da Pasta (todas com Realtime onde aplicável)
+
+| Aba | Conteúdo | Realtime? | Acesso |
+|---|---|---|---|
+| **Timeline** | Linha do tempo cross-Time com % conclusão e eventos cronológicos | ✅ Sim | Times participantes + Diretoria |
+| **Tasks** | Kanban/Lista de Tasks da Pasta filtrável por Time, status, owner, prazo | ✅ Sim | Times participantes |
+| **Ferramentas** | Instâncias das Ferramentas dos Times ativos (ex: aba Recebimentos do Comercial) | Por ferramenta | Times participantes |
+| **Documentos** | Arquivos do projeto (contratos, PDFs, plantas, fotos) com versionamento | ❌ Refetch | Times participantes |
+| **Feed** | Posts vinculados a este Projeto (subset do Feed Geral) | ✅ Sim | Times participantes |
+| **Histórico** | Audit log de tudo que aconteceu na Pasta | ❌ Refetch | Líder+, Gestor, Diretoria |
+
+#### Estados da Pasta
+
+```
+draft → ativa → em_revisao → ativa → concluida → arquivada
+                     ↑__________│
+                  (loop possível, sem bloquear paralelismo)
+```
+
+- **draft** — Comercial criou mas ainda não distribuiu para outros Times
+- **ativa** — pelo menos 1 Time participante com Tasks abertas
+- **em_revisao** — existe pelo menos 1 Task tipo `revisao` pendente (alerta visual)
+- **concluida** — todos os Times marcaram suas frentes como concluídas + aprovação Gestor/Diretoria
+- **arquivada** — projeto fechado, mantido para auditoria (read-only, sai dos filtros padrão)
+
+#### Permissões dentro da Pasta
+
+- Apenas **Times participantes** veem a Pasta (via RLS).
+- **Líder do Time** vê todas as Tasks de seu Time naquela Pasta.
+- **Integrante** vê apenas Tasks atribuídas a si + Tasks "públicas do Time".
+- **Gestor cross-Time** que distribuiu o projeto vê tudo dos Times sob sua coordenação.
+- **Diretoria** sempre vê tudo, com filtros de drill-down.
 
 📄 Detalhes em [`docs/DOMAIN_MODEL.md`](./docs/DOMAIN_MODEL.md)
 
@@ -505,30 +639,142 @@ Feed
 
 ### Lógica de Tasks e Paralelismo
 
-> **Princípio**: Times trabalham em **paralelo** na mesma Pasta do Projeto. Não há etapas sequenciais bloqueantes.
+> **Princípio fundamental**: Times trabalham em **paralelo** na mesma Pasta do Projeto, sem etapas sequenciais bloqueantes. Cada Time tem sua própria frente de progresso e é responsável por declarar quando sua parte está pronta.
 
-**Como funciona:**
-1. Quando um Projeto é criado, o Líder/Gestor define **quais Times participam** da Pasta do Projeto.
-2. Cada Time gera suas **Tasks** dentro da Pasta (manualmente ou via templates de Ferramenta).
-3. Cada Task tem: `owner` (Integrante), `status` (`pendente` | `em_andamento` | `concluida` | `bloqueada`), `prazo`, `prioridade`.
-4. A **Timeline da Pasta do Projeto** mostra o progresso paralelo de cada Time (% de Tasks concluídas).
-5. Quando uma Task muda de status → atualiza Timeline + (opcionalmente) cria Post automático no Feed do Time.
-6. **Backlog do Time** = soma de Tasks pendentes do Time em todas as Pastas de Projeto ativas.
+#### Anatomia de uma Task
 
-### Ressalva Técnica — "Voltar Etapas"
+```
+Task {
+  id: uuid
+  pasta_projeto_id: uuid          ← contexto sempre é uma Pasta
+  time_responsavel_id: uuid        ← qual time "dono" da task
+  owner_id: uuid | null            ← integrante atribuído (nulo = backlog do time)
+  criada_por_id: uuid
 
-> Você disse: "com paralelismo não haverá necessidade de voltar etapas".  
-> **Concordo no fluxo padrão**, mas precisamos modelar o caso real:
+  titulo: string
+  descricao: text
+  tipo: 'normal' | 'revisao' | 'bloqueio_externo' | 'auto_ferramenta'
+  
+  status: 'pendente' | 'em_andamento' | 'em_revisao' | 'concluida' | 'cancelada' | 'bloqueada'
+  prioridade: 'P0' | 'P1' | 'P2' | 'P3'
+  
+  prazo: timestamptz | null
+  iniciada_em: timestamptz | null
+  concluida_em: timestamptz | null
+  
+  task_origem_id: uuid | null       ← se é revisão, aponta para a task original
+  ferramenta_origem: string | null  ← ex: 'recebimentos', 'propostas'
+  ferramenta_ref_id: uuid | null    ← ID dentro da ferramenta
+  
+  visibilidade: 'time' | 'pasta'    ← 'time' = só meu time vê, 'pasta' = todos os times da pasta
+  
+  bloqueada_por_task_id: uuid | null  ← raríssimo, usar com critério
+  
+  criado_em, atualizado_em
+}
+```
 
-**Cenário inevitável**: Engenharia detecta erro de medida que veio do Comercial (na proposta). Hoje: o time "volta" a etapa anterior.
+#### Fluxo de Criação
 
-**Solução proposta** *(sem violar paralelismo)*:
-- Em vez de "voltar etapa", o Time afetado **cria uma nova Task de Revisão** atribuída ao Time responsável original.
-- A Task de Revisão é vinculada ao motivo (`tipo: revisao`, `task_origem_id`, `motivo`).
-- Mantém histórico completo, sem ciclos no fluxo, sem dependência circular.
-- A Pasta do Projeto fica visualmente sinalizada com **alerta de revisão pendente**.
+1. **Origem manual** — Líder ou Integrante cria task direto na Pasta (form curto).
+2. **Origem via Ferramenta** — Quando uma ação numa Ferramenta gera trabalho (ex: registrar Recebimento → cria task "Conferir extrato bancário"), a task nasce com `tipo: auto_ferramenta` e link para a entrada original.
+3. **Origem via Template** — Cada Time tem templates de tasks que se aplicam quando o Time é adicionado à Pasta (ex: Comercial sempre cria "Validar contrato", "Registrar entrada de orçamento").
+4. **Origem via Revisão** — quando outro Time detecta erro (ver abaixo).
 
-✅ **Vantagem**: rastreabilidade total + sem complexidade de máquina de estados retroativa.
+#### Máquina de Estados de Task
+
+```
+                ┌──────────────────────────────────────────┐
+                │                                            │
+                ▼                                            │
+   ┌────────┐  start   ┌─────────────┐  request_review     │
+   │pendente├─────────▶│em_andamento ├────────▶┌─────────┐│
+   └────┬───┘          └──┬──┬───────┘         │em_revisao├┘
+        │                 │  │                  └────┬─────┘
+        │ block           │  │ complete              │ approve
+        ▼                 │  ▼                       ▼
+   ┌──────────┐           │  ┌──────────┐    ┌──────────┐
+   │bloqueada │◀──────────┘  │concluida │    │concluida │
+   └──────────┘  block       └──────────┘    └──────────┘
+```
+
+- **pendente → em_andamento** quando owner inicia
+- **em_andamento → em_revisao** quando owner solicita revisão (Líder ou par)
+- **em_revisao → em_andamento** se revisor pedir ajustes
+- **em_revisao → concluida** se aprovado
+- **qualquer → bloqueada** se dependência externa surgir (com motivo obrigatório)
+- **qualquer → cancelada** apenas Líder/Gestor com justificativa
+
+#### Paralelismo entre Times
+
+```
+Pasta do Projeto: "Apto Vila Nova Conceição"
+├── Comercial   ──▶ [████████░░] 60% (12 tasks: 7 ok, 3 em andamento, 2 pendentes)
+├── PCP         ──▶ [████░░░░░░] 25% (8 tasks: 2 ok, 1 em andamento, 5 pendentes)
+├── Engenharia  ──▶ [████████░░] 80% (5 tasks: 4 ok, 1 em revisão)
+└── Suprimentos ──▶ [░░░░░░░░░░] 0%  (não iniciado, aguardando definição da Engenharia)
+```
+
+- **% de progresso** = `tasks_concluidas / total_tasks` daquele Time naquela Pasta.
+- **Suprimentos não iniciado** não bloqueia outros Times — cada um trabalha na sua frente.
+- **Saúde do projeto** é função de prazos individuais de tasks vs. prazo do cliente, não de média.
+
+#### Tratamento de "Voltar Etapas" — Sistema de Revisão
+
+> Marcus afirmou: "com paralelismo não haverá necessidade de voltar etapas". **Concordo no fluxo feliz**, mas o mundo real exige a modelagem de revisões.
+
+**Cenário inevitável**: Engenharia detecta erro de medida que veio do Comercial na proposta. Hoje, manualmente: o time "volta" etapa.
+
+**Como o Arali Flow resolve sem violar paralelismo:**
+
+```
+Engenharia abre Task "Detalhar peça do nicho da sala"
+   └─▶ Detecta inconsistência: medida na proposta diferente do projeto
+       └─▶ Botão "Solicitar Revisão" cria nova Task:
+           {
+             tipo: 'revisao',
+             time_responsavel_id: <ID Comercial>,
+             task_origem_id: <ID task da Engenharia>,
+             titulo: 'REVISÃO: Validar medida do nicho da sala (proposta vs projeto)',
+             prioridade: 'P0',
+             motivo: 'Engenharia detectou divergência entre proposta...'
+           }
+       └─▶ Pasta do Projeto recebe alerta visual: ⚠️ "1 revisão pendente"
+       └─▶ Comercial recebe notificação realtime
+       └─▶ Task original da Engenharia entra em status 'bloqueada' (opcional)
+           OU continua em andamento se houver outras frentes
+```
+
+**Vantagens:**
+- Histórico linear, auditável, sem ciclos retroativos
+- Métricas de qualidade ficam visíveis (quantas revisões cada Time gera/recebe)
+- Sem máquina de estados circular (que causa bugs de UX e database)
+- Times continuam paralelos onde possível
+
+**Visualização da Saúde:**
+- Pasta com 0 revisões pendentes → 🟢
+- Pasta com 1-2 revisões → 🟡
+- Pasta com 3+ revisões ou revisão P0 não atendida em 48h → 🔴
+
+#### Backlog e Carga do Time
+
+- **Backlog do Time** = todas as tasks pendentes do Time (em qualquer Pasta) ordenadas por prioridade × prazo.
+- **Carga do Integrante** = soma de tasks `em_andamento` ou `pendente` atribuídas a ele em qualquer Pasta.
+- **Alertas automáticos**:
+  - Integrante com >5 tasks P0+P1 simultâneas → notificação ao Líder
+  - Task com prazo vencido sem mudança de status há 24h → notificação ao owner + Líder
+  - Time com >30% de tasks atrasadas → alerta no painel do Gestor
+
+#### Posts Automáticos (feature flag, ativada na Etapa 2)
+
+Quando ativado em `NEXT_PUBLIC_FEATURE_TASK_AUTO_POST=true`, mudanças relevantes em Tasks geram Posts automáticos no Feed do Time:
+
+- Task concluída de prioridade P0 ou P1
+- Task em revisão criada
+- Bloqueio criado/resolvido
+- Marco da Pasta atingido (ex: 100% das tasks de um Time naquela Pasta)
+
+Sem ruído: tasks normais (P2/P3) não geram post — só ficam visíveis no histórico.
 
 📄 Detalhes em [`docs/DOMAIN_MODEL.md`](./docs/DOMAIN_MODEL.md)
 
@@ -674,29 +920,49 @@ headers: [
 
 ## 💰 Custos de Infraestrutura
 
-> **Teto definido**: R$500/mês
+> **Política Lioma IT**: cada cliente tem seu próprio teto de infraestrutura definido no contrato. Os valores específicos NÃO ficam neste repositório — são tratados como ativo do departamento Lioma IT.
+>
+> **Modelo operacional**: `MODELO_CUSTO_INFRAESTRUTURA_LIOMA_IT.md` (gerido pela área de operações Lioma IT) define:
+> - Stack padrão de fornecedores (hosting, database, observabilidade, e-mail, DNS, IA assistida)
+> - Tiers por porte de cliente (S/M/L)
+> - Gatilhos de upgrade automáticos
+> - Alocação de assinaturas de ferramentas de desenvolvimento (Claude, Cursor, etc.)
+> - Política de revisão trimestral de custos
 
-### Estimativa Operacional (Produção)
+### Categorias de Infraestrutura Mapeadas
 
-| Serviço | Plano | Custo (USD) | Custo (R$) | Função |
-|---|---|---|---|---|
-| **Supabase** | Pro | $25 | ~R$130 | DB, Auth, Storage (100GB), Realtime |
-| **Vercel** | Hobby* | $0 | R$0 | Hosting (suficiente para 25 usuários) |
-| **Sentry** | Free Dev | $0 | R$0 | Observabilidade (5k events/mês) |
-| **Resend** | Free | $0 | R$0 | E-mail (3k/mês) |
-| **Cloudflare** | Free | $0 | R$0 | DNS + Proxy + WAF básico |
-| **Domínio** | .com.br | — | ~R$5/mês | Anual ~R$60 |
-| **Backups extras** | — | — | ~R$30 | Buffer |
-| **TOTAL ESTIMADO** | | | **~R$165/mês** | ✅ Cabe folgado |
+Todo cliente Arali Flow tem custos rastreados nas seguintes categorias:
 
-> \* Vercel Hobby tem limites para projetos comerciais. **Recomendação**: começar Hobby, migrar para Pro ($20 = ~R$104) se necessário. Mesmo com Pro: ~R$269/mês ✅
+| Categoria | Função | Fornecedores típicos |
+|---|---|---|
+| **Hosting Frontend** | Build + Edge runtime + CDN | Vercel, Cloudflare Pages |
+| **Backend-as-a-Service** | DB Postgres + Auth + Storage + Realtime + Edge Functions | Supabase |
+| **DNS + WAF** | Resolução de domínio, proxy, proteção DDoS básica | Cloudflare |
+| **Observabilidade** | Errors, performance, traces | Sentry |
+| **E-mail Transacional** | Magic link, notificações | Resend |
+| **Domínio** | Registro .com.br ou outro TLD | Registro.br, Namecheap |
+| **Backups Externos** | Buffer e disaster recovery | Supabase + S3-compatible |
+| **IA Assistida (Lioma IT)** | Claude Code, Cursor, Anthropic API, etc. | Rateado entre clientes |
+| **Comunicação Cliente** | WhatsApp Business API (futuro), Slack interno | A definir |
 
-### Quando Reavaliar
-- **>50 usuários simultâneos em pico** → considerar Vercel Pro (cenário possível com os 60 da Arali em horários de fechamento de proposta)
-- DB >8GB → Supabase Team ($599 — só com receita do contrato + 2º cliente Lioma)
-- Anexos >100GB → upgrade Supabase Storage ou migrar para R2/B2 (provável a partir do Verniz com upload de DWG/PDF da Engenharia)
+### Princípios de Custo
 
-📄 Detalhes em [`docs/DEPLOYMENT.md`](./docs/DEPLOYMENT.md)
+1. **Single-tenant**: cada cliente tem stack isolada. Custos não se misturam.
+2. **Free tier first**: começamos no plano grátis, sobe quando métrica de uso justifica.
+3. **Teto contratual claro**: estouro de teto vira aditivo ao contrato, nunca surpresa.
+4. **Revisão trimestral**: custos auditados a cada 3 meses, com relatório ao cliente.
+
+### Gatilhos Genéricos de Upgrade
+
+| Sinal | Ação |
+|---|---|
+| Usuários simultâneos em pico > 50 | Avaliar Vercel Pro ou equivalente |
+| DB > 8GB | Migrar tier Supabase ou adicionar particionamento |
+| Anexos > 100GB | Migrar storage para R2/B2 ou upgrade Supabase |
+| Erros Sentry > 5k/mês | Upgrade Sentry Team |
+| E-mails > 3k/mês | Upgrade Resend Pro |
+
+📄 Detalhes técnicos em [`docs/DEPLOYMENT.md`](./docs/DEPLOYMENT.md). Modelo operacional Lioma IT é mantido pela área de operações.
 
 ---
 

@@ -6,14 +6,29 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "types:generate": "supabase gen types typescript --linked > types/database.ts",
+    "db:migrate": "supabase db push",
+    "db:reset": "supabase db reset",
+    "db:seed": "supabase db reset --db-url $DATABASE_URL && pnpm tsx supabase/seed.ts",
+    "health:check": "curl -f $NEXT_PUBLIC_APP_URL/api/health && echo 'OK'"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.2",
     "@supabase/supabase-js": "^2.105.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.14.0",
     "next": "15.5.15",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "tailwind-merge": "^3.5.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
@@ -23,7 +38,9 @@
     "@types/react-dom": "^19",
     "eslint": "^8.57.1",
     "eslint-config-next": "15.5.15",
+    "prettier": "^3",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^2"
   }
 }

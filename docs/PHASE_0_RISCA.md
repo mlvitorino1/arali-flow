@@ -92,7 +92,7 @@ Migration única (`supabase/migrations/0001_fundacao.sql`) com:
 
 ### 7. CI/CD + DX (Semana 3-4)
 - [ ] `.github/workflows/ci.yml` com lint + typecheck + build em PR
-- [ ] `.github/workflows/preview.yml` integrado ao Vercel
+- [ ] `.github/workflows/preview.yml` integrado ao Vercel (preview automático por PR)
 - [ ] Scripts no `package.json`: `dev`, `build`, `start`, `lint`, `lint:fix`, `typecheck`, `format`, `test`, `types:generate`, `db:migrate`, `db:reset`, `db:seed`, `health:check`
 - [ ] Vitest configurado (mesmo sem testes ainda)
 - [ ] Prettier configurado
@@ -100,6 +100,7 @@ Migration única (`supabase/migrations/0001_fundacao.sql`) com:
 - [ ] Sentry conectado ao Vercel project
 - [ ] Resend conectado e e-mail de boas-vindas testado
 - [ ] Vercel: variáveis de ambiente das envs `Development`, `Preview`, `Production`
+- [ ] **v0.dev**: projeto Vercel configurado — workflow: gerar UI em v0.dev → copiar para repo → ajustar tokens Arali → commitar → deploy automático via Vercel
 
 ### 8. Higiene de Git (transversal)
 - [ ] Limpar working tree atual (8 arquivos modificados sem commit)

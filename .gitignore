@@ -87,6 +87,8 @@ temp/
 # ============================================
 .supabase/
 supabase/migrations/
+!supabase/migrations/
+!supabase/migrations/*.sql
 
 # ============================================
 # SENTRY

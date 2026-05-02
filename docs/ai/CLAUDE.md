@@ -80,6 +80,8 @@ Quando gerar código, **sempre respeite**:
 - **Zod** (validação)
 - **next-pwa** ou similar (PWA)
 - **React Hook Form** (forms)
+- - **Montserrat + DM Sans** (Google Fonts via `next/font/google`) — tipografia oficial Arali
+- **JetBrains Mono** (Google Fonts via `next/font/google`) — OS, códigos, valores monetários
 
 ### Backend (Supabase)
 - **PostgreSQL** (com RLS)
@@ -89,7 +91,8 @@ Quando gerar código, **sempre respeite**:
 - **Edge Functions** (Deno) — para tarefas server-side específicas
 
 ### DevOps
-- **Vercel** — hosting do frontend
+- **Vercel** — hosting do frontend (Development, Preview, Production)
+- **v0.dev (Vercel)** — geração de páginas e componentes UI via prompt. Workflow: gerar em v0.dev → copiar para o repositório → ajustar tokens/domínio → commitar. **Não deploy direto de v0 — todo código passa pelo repositório.**
 - **GitHub Actions** — CI (lint + typecheck + build + tests)
 - **Sentry** — observabilidade
 - **pnpm** — package manager (NÃO use npm ou yarn)
@@ -228,13 +231,22 @@ Tudo o resto: **Server Components com revalidação tática** ou **TanStack Quer
 ## 🎨 Design System
 
 > **SEMPRE** consulte [`docs/BRANDING.md`](../BRANDING.md) antes de criar componentes visuais.
+> Fonte oficial: Brand Book Arali Móveis (Fev/2026)
 
 **TL;DR:**
 - Dark-first (modo claro só na fase 2)
-- Paleta: Preto profundo (`noir`) + Madeira (`wood`) + Gold (`gold`) + Alaranjado (`amber`) + Neutros
-- Tipografia: Inter (UI), Cormorant Garamond (display), JetBrains Mono (códigos/valores)
-- Border radius: padrão `rounded-md` (6px) e `rounded-lg` (8px) em cards
-- Sombras: escuras + highlight superior 4% para sensação "lapidada"
+- **Paleta oficial (4 cores do Brand Book):**
+  - `creme`     `#F5ECE6` — texto principal, cor de papel
+  - `terracota` `#C77549` — acento quente, CTAs, chips de OS
+  - `vinho`     `#683637` — primário, navegação ativa, autoridade técnica
+  - `marrom`    `#412F2D` — base para os darks do sistema
+- **Tipografia oficial:**
+  - Montserrat (títulos, labels uppercase) — geométrica, solidez, precisão
+  - DM Sans (corpo, sub-títulos) — fluidez, clareza, contemporânea
+  - JetBrains Mono (OS/códigos/valores) — não está no brand book, mas é funcional
+- Border radius: `rounded-md` (6px) inputs/badges, `rounded-lg` (8px) cards
+- Sombras: escuras + highlight superior 4% creme (`rgba(245,236,230,0.04)`)
+- ❌ **Não usar**: Inter, Cormorant Garamond, gold `#C9A84C`, noir puro `#0C0B09`
 
 ---
 
