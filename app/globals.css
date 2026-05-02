@@ -5,70 +5,140 @@
    Fonte: Brand Book Arali Móveis (Fev/2026)
    ============================================================ */
 
-@theme inline {
-  /* ── Paleta Arali (4 cores oficiais) ── */
-  --color-creme:     #F5ECE6; /* texto principal, cor de papel          */
-  --color-terracota: #C77549; /* acento quente, CTAs, chips de OS       */
-  --color-vinho:     #683637; /* primário, navegação ativa, autoridade  */
-  --color-marrom:    #412F2D; /* base escura do sistema                 */
-
-  /* ── Variações de superfície (dark-first) ── */
-  --color-surface-900: #1A1210;
-  --color-surface-800: #261A18;
-  --color-surface-700: #33201D;
-  --color-surface-600: #412F2D;
-
-  /* ── Texto ── */
-  --color-text-primary:   #F5ECE6;
-  --color-text-secondary: #C9A99A;
-  --color-text-muted:     #8C6B63;
-
-  /* ── Feedback ── */
-  --color-success: #5A9E72;
-  --color-warning: #C8903A;
-  --color-error:   #B84444;
-  --color-info:    #4A82A8;
-
-  /* ── Tipografia ── */
-  --font-display: var(--font-montserrat);
-  --font-body:    var(--font-dm-sans);
-  --font-mono:    var(--font-jetbrains);
-
-  /* ── Radius ── */
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 8px;
-  --radius-xl: 12px;
-}
-
-/* ── Base ── */
 :root {
-  color-scheme: dark;
+  /* ── LIGHT (padrão — cor de papel Arali) ── */
+
+  /* Backgrounds */
+  --bg:          #F5ECE6;   /* creme oficial — fundo principal */
+  --surface-1:   #FDFAF8;   /* near-white quente — sidebar, painéis */
+  --surface-2:   #EDE0D6;   /* creme mais escuro — cards, inputs */
+  --surface-3:   #E2D0C4;   /* hover de cards, dropdowns */
+  --border:      rgba(65, 47, 45, 0.12);
+
+  /* Marca */
+  --vinho:       #683637;
+  --vinho-light: #4D2526;   /* ← mais ESCURO no light (contraste sobre creme) */
+  --terracota:   #C77549;
+  --terra-light: #A85D38;   /* ← mais ESCURO no light */
+
+  /* Texto */
+  --text-1:      #412F2D;   /* marrom oficial */
+  --text-2:      #7A5C54;
+  --text-3:      #A89B95;   /* placeholder, desabilitado */
+
+  /* Utilitários */
+  --success:     #2D7A57;   /* verde escuro — contraste no light */
+  --danger:      #B94040;   /* vermelho escuro — contraste no light */
+
+  /* Sombras (sutis, marrom) */
+  --shadow-card:  0 1px 3px rgba(65,47,45,0.08), 0 4px 12px rgba(65,47,45,0.06);
+  --shadow-hover: 0 4px 16px rgba(65,47,45,0.14), 0 1px 3px rgba(65,47,45,0.1);
 }
 
-html,
-body {
-  background-color: #1A1210;
-  color: #F5ECE6;
-  font-family: var(--font-body), system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.dark {
+  /* ── DARK (derivado do marrom Arali) ── */
+
+  /* Backgrounds */
+  --bg:          #150E0D;
+  --surface-1:   #1E1512;
+  --surface-2:   #2A1C18;
+  --surface-3:   #352420;
+  --border:      rgba(245, 236, 230, 0.07);
+
+  /* Marca */
+  --vinho:       #683637;
+  --vinho-light: #8B4A4B;   /* ← mais CLARO no dark (contraste sobre marrom) */
+  --terracota:   #C77549;
+  --terra-light: #D4906A;   /* ← mais CLARO no dark */
+
+  /* Texto */
+  --text-1:      #F5ECE6;   /* creme — texto principal no escuro */
+  --text-2:      #A89B95;
+  --text-3:      #5C4E4A;
+
+  /* Utilitários */
+  --success:     #4CAF82;
+  --danger:      #D95F52;
+
+  /* Sombras (escuras) */
+  --shadow-card:  0 1px 0 0 rgba(245,236,230,0.04) inset, 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-hover: 0 1px 0 0 rgba(245,236,230,0.06) inset, 0 8px 24px rgba(0,0,0,0.5);
+}
+
+@theme inline {
+  /* Backgrounds */
+  --color-bg:          var(--bg);
+  --color-surface-1:   var(--surface-1);
+  --color-surface-2:   var(--surface-2);
+  --color-surface-3:   var(--surface-3);
+
+  /* Marca */
+  --color-vinho:       var(--vinho);
+  --color-vinho-light: var(--vinho-light);
+  --color-terracota:   var(--terracota);
+  --color-terra-light: var(--terra-light);
+
+  /* Texto */
+  --color-text-1:      var(--text-1);
+  --color-text-2:      var(--text-2);
+  --color-text-3:      var(--text-3);
+
+  /* Utilitários */
+  --color-success:     var(--success);
+  --color-danger:      var(--danger);
+
+  /* Aliases legados */
+  --color-noir:        var(--bg);
+  --color-wood:        var(--vinho);
+  --color-gold:        var(--terracota);
+  --color-amber:       var(--terracota);
+
+  /* Sombras */
+  --shadow-card:       var(--shadow-card);
+  --shadow-hover:      var(--shadow-hover);
+
+  /* Fontes */
+  --font-sans:         var(--font-dm-sans);
+  --font-montserrat:   var(--font-montserrat);
+  --font-mono:         var(--font-jetbrains);
+}
+
+@layer base {
+  html, body {
+    background-color: var(--bg);
+    color: var(--text-1);
+    font-family: var(--font-sans), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  *, *::before, *::after {
+    transition:
+      background-color 250ms ease,
+      border-color     200ms ease,
+      color            150ms ease,
+      box-shadow       200ms ease;
+  }
+
+  button, a, [role="button"] {
+    transition-duration: 150ms;
+  }
 }
 
 /* ── Scrollbar discreta ── */
 ::-webkit-scrollbar        { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track  { background: transparent; }
-::-webkit-scrollbar-thumb  { background: #412F2D; border-radius: 2px; }
-::-webkit-scrollbar-thumb:hover { background: #683637; }
+::-webkit-scrollbar-thumb  { background: var(--surface-3); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--vinho); }
 
 /* ── Focus ring acessível ── */
 :focus-visible {
-  outline: 2px solid #C77549;
+  outline: 2px solid var(--terracota);
   outline-offset: 2px;
 }
 
 /* ── Seleção de texto ── */
 ::selection {
-  background-color: #683637;
-  color: #F5ECE6;
+  background-color: var(--vinho);
+  color: var(--bg);
 }

@@ -124,7 +124,7 @@ classes de cor permitidas nos componentes.
 
 ### Tailwind v4 — `@theme` inline (`src/styles.css`)
 
-> ⚠️ Este projeto usa **Tailwind v4 + Vite**. Não existe `tailwind.config.ts`.
+> ⚠️ Este projeto usa **Tailwind v4 + Next.js 15**. Não existe `tailwind.config.ts`.
 > Tokens entram via `@theme` inline no CSS e ficam disponíveis como classes utilitárias
 > (`bg-bg`, `text-vinho`, `bg-terracota`, etc.) automaticamente.
 
@@ -221,7 +221,7 @@ export function useTheme() {
 }
 ```
 
-### Anti-flash (TanStack Start — `__root.tsx`)
+### Anti-flash (Next.js — `layout.tsx`)
 
 Adicionar no `<head>` antes da hidratação para evitar piscão branco:
 
@@ -379,7 +379,7 @@ Posição: lado direito do Header, antes do avatar
 ❌ Azul, verde genérico, cinza frio (#6B7280, etc.)
 ❌ vinho-light e terra-light com valor único nos dois modos — são diferentes por tema
 ❌ tailwind.config.ts — este projeto usa Tailwind v4 com @theme inline
-❌ next/font — este projeto usa TanStack Start + Vite (Google Fonts via @import)
+❌ importação Google Fonts via @import no CSS — este projeto usa next/font/google em layout.tsx
 ```
 
 ---
@@ -399,8 +399,8 @@ Posição: lado direito do Header, antes do avatar
 - Sistema dual de temas (`:root` = light, `.dark` = dark)
 - Correção: `vinho-light` e `terra-light` com valores distintos por modo
 - Tailwind v4 via `@theme` inline (sem `tailwind.config.ts`)
-- Removido setup Next.js (projeto usa TanStack Start + Vite)
-- Adicionado hook `useTheme` e script anti-flash para `__root.tsx`
+- Mantido setup Next.js 15 (projeto usa App Router)
+- Adicionado hook `useTheme` e script anti-flash para `layout.tsx`
 - Aliases legados (`--noir`, `--wood`, `--gold`) mapeados para novos tokens
 - Transições globais especificadas
 - Specs de componente reescritas com tokens semânticos
