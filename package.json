@@ -34,7 +34,10 @@
     "zod": "^4.3.6"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["esbuild", "supabase"]
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "supabase"
+    ]
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

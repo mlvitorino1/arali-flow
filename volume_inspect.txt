@@ -1,0 +1,14 @@
+﻿[
+    {
+        "CreatedAt": "2026-05-02T03:59:07Z",
+        "Driver": "local",
+        "Labels": {
+            "com.docker.compose.project": "arali-flow",
+            "com.supabase.cli.project": "arali-flow"
+        },
+        "Mountpoint": "/var/lib/docker/volumes/supabase_db_arali-flow/_data",
+        "Name": "supabase_db_arali-flow",
+        "Options": null,
+        "Scope": "local"
+    }
+]
