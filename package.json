@@ -33,6 +33,9 @@
     "tailwind-merge": "^3.5.0",
     "zod": "^4.3.6"
   },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild", "supabase"]
+  },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
@@ -40,9 +43,10 @@
     "@types/react-dom": "^19",
     "eslint": "^8.57.1",
     "eslint-config-next": "15.5.15",
-    "prettier": "^3",
-    "tailwindcss": "^4",
     "husky": "^9.1.7",
+    "prettier": "^3",
+    "supabase": "^2.98.0",
+    "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^2"
   }
