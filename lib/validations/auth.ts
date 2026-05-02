@@ -7,3 +7,9 @@ export const LoginSchema = z.object({
 })
 
 export type LoginData = z.infer<typeof LoginSchema>
+
+export const MagicLinkSchema = z.object({
+  email: z.string().email("E-mail inválido"),
+})
+
+export type MagicLinkData = z.infer<typeof MagicLinkSchema>

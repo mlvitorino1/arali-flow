@@ -12,7 +12,7 @@ import type { Database } from '@/types/database'
  * Uso (Edge Function / Server Action privilegiada):
  *   import { createSupabaseAdminClient } from '@/lib/supabase/admin'
  *   const supabase = createSupabaseAdminClient()
- *   await supabase.from('usuarios').update({ role: 'admin' }).eq('id', userId)
+ *   await supabase.from('integrantes').update({ role_global: 'admin' }).eq('usuario_id', userId)
  */
 export function createSupabaseAdminClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL

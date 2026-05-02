@@ -17,6 +17,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { getPerfilAtual } from "@/server/queries/auth/perfil-atual"
 
 export const metadata: Metadata = {
   title: "Página Inicial",
@@ -83,7 +84,10 @@ const notices = [
   },
 ]
 
-export default function HomePage() {
+export default async function HomePage() {
+  const perfil = await getPerfilAtual()
+  const nome = perfil?.apelido ?? perfil?.nomeCompleto.split(" ")[0] ?? "Marcus"
+
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
       <section className="flex flex-col justify-between gap-4 border-b border-border pb-6 md:flex-row md:items-end">
@@ -92,7 +96,7 @@ export default function HomePage() {
             Fundação Risca
           </p>
           <h1 className="font-montserrat text-3xl font-semibold tracking-normal text-text-1 md:text-4xl">
-            Olá, Marcus.
+            Olá, {nome}.
           </h1>
           <p className="text-sm leading-6 text-text-2 md:text-base">
             Aqui está o painel inicial para acompanhar rotina, alertas e os

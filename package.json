@@ -14,11 +14,13 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
-    "types:generate": "supabase gen types typescript --linked > types/database.ts",
-    "db:migrate": "supabase db push",
-    "db:reset": "supabase db reset",
-    "db:seed": "supabase db reset --db-url $DATABASE_URL && pnpm tsx supabase/seed.ts",
-    "health:check": "curl -f $NEXT_PUBLIC_APP_URL/api/health && echo 'OK'"
+    "types:generate": "node scripts/ensure-supabase-cli.mjs && supabase gen types typescript --linked > types/database.ts",
+    "db:migrate": "node scripts/ensure-supabase-cli.mjs && supabase db push",
+    "db:reset": "node scripts/ensure-supabase-cli.mjs && supabase db reset",
+    "db:seed": "node scripts/ensure-supabase-cli.mjs && supabase db reset --db-url $DATABASE_URL && node scripts/seed-pilotos.mjs",
+    "db:pilots": "node scripts/seed-pilotos.mjs",
+    "health:check": "curl -f $NEXT_PUBLIC_APP_URL/api/health && echo 'OK'",
+    "prepare": "husky"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.2",
@@ -40,6 +42,7 @@
     "eslint-config-next": "15.5.15",
     "prettier": "^3",
     "tailwindcss": "^4",
+    "husky": "^9.1.7",
     "typescript": "^5",
     "vitest": "^2"
   }

@@ -49,8 +49,8 @@ export default function LoginPage() {
                   A operação inteira com a precisão de uma peça bem marcada.
                 </h1>
                 <p className="max-w-lg text-base leading-7 text-text-2">
-                  Uma base visual sóbria para autenticação, navegação e rotina dos
-                  primeiros usuários da Risca.
+                  Uma base visual sóbria para autenticação, navegação e rotina
+                  dos primeiros usuários da Risca.
                 </p>
               </div>
 

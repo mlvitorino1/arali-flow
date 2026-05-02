@@ -1,9 +1,12 @@
 "use client"
 
 import * as React from "react"
-import { AlertCircle, Loader2, LogIn } from "lucide-react"
+import { AlertCircle, Link2, Loader2, LogIn } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { entrarComSenha } from "@/server/actions/auth/entrar-com-senha"
+import {
+  entrarComMagicLink,
+  entrarComSenha,
+} from "@/server/actions/auth/entrar-com-senha"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
@@ -17,14 +20,25 @@ type FormErrors = {
 
 export function LoginForm() {
   const router = useRouter()
-  const [isLoading, setIsLoading] = React.useState(false)
+  const formRef = React.useRef<HTMLFormElement>(null)
+  const [isPasswordLoading, setIsPasswordLoading] = React.useState(false)
+  const [isMagicLinkLoading, setIsMagicLinkLoading] = React.useState(false)
   const [formError, setFormError] = React.useState<string | null>(null)
+  const [formSuccess, setFormSuccess] = React.useState<string | null>(null)
   const [fieldErrors, setFieldErrors] = React.useState<FormErrors>({})
+
+  React.useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (params.get("erro") === "callback") {
+      setFormError("Não foi possível concluir o acesso pelo link mágico.")
+    }
+  }, [])
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    setIsLoading(true)
+    setIsPasswordLoading(true)
     setFormError(null)
+    setFormSuccess(null)
     setFieldErrors({})
 
     const formData = new FormData(event.currentTarget)
@@ -35,7 +49,7 @@ export function LoginForm() {
     })
 
     if (!result.ok) {
-      setIsLoading(false)
+      setIsPasswordLoading(false)
       setFormError(result.erro)
       setFieldErrors(result.fieldErrors ?? {})
       return
@@ -45,8 +59,32 @@ export function LoginForm() {
     router.refresh()
   }
 
+  async function onMagicLinkClick() {
+    setIsMagicLinkLoading(true)
+    setFormError(null)
+    setFormSuccess(null)
+    setFieldErrors({})
+
+    const formData = new FormData(formRef.current ?? undefined)
+    const result = await entrarComMagicLink({
+      email: String(formData.get("email") ?? ""),
+    })
+
+    setIsMagicLinkLoading(false)
+
+    if (!result.ok) {
+      setFormError(result.erro)
+      setFieldErrors(result.fieldErrors ?? {})
+      return
+    }
+
+    setFormSuccess(result.mensagem ?? "Link enviado com sucesso.")
+  }
+
+  const isLoading = isPasswordLoading || isMagicLinkLoading
+
   return (
-    <form onSubmit={onSubmit} className="grid gap-5" noValidate>
+    <form ref={formRef} onSubmit={onSubmit} className="grid gap-5" noValidate>
       {formError ? (
         <div
           role="alert"
@@ -54,6 +92,12 @@ export function LoginForm() {
         >
           <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
           <p>{formError}</p>
+        </div>
+      ) : null}
+
+      {formSuccess ? (
+        <div className="rounded-lg border border-success/30 bg-success/10 p-3 text-sm text-success">
+          {formSuccess}
         </div>
       ) : null}
 
@@ -113,19 +157,44 @@ export function LoginForm() {
         </label>
       </div>
 
-      <Button disabled={isLoading} className="mt-2 h-11 w-full gap-2 text-base shadow-md">
-        {isLoading ? (
-          <>
-            <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-            Verificando acesso
-          </>
-        ) : (
-          <>
-            <LogIn className="h-4 w-4" aria-hidden="true" />
-            Entrar no sistema
-          </>
-        )}
-      </Button>
+      <div className="grid gap-3">
+        <Button
+          disabled={isLoading}
+          className="mt-2 h-11 w-full gap-2 text-base shadow-md"
+        >
+          {isPasswordLoading ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+              Verificando acesso
+            </>
+          ) : (
+            <>
+              <LogIn className="h-4 w-4" aria-hidden="true" />
+              Entrar no sistema
+            </>
+          )}
+        </Button>
+
+        <Button
+          type="button"
+          variant="outline"
+          disabled={isLoading}
+          className="h-11 w-full gap-2"
+          onClick={onMagicLinkClick}
+        >
+          {isMagicLinkLoading ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+              Enviando link
+            </>
+          ) : (
+            <>
+              <Link2 className="h-4 w-4" aria-hidden="true" />
+              Enviar link mágico
+            </>
+          )}
+        </Button>
+      </div>
     </form>
   )
 }
