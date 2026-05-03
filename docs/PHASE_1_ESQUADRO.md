@@ -2,6 +2,10 @@
 
 > *"O esquadro é o que garante o ângulo certo. Sem ele, qualquer corte parece bom até a hora de juntar duas peças. Esquadro alinha o Comercial — porta de entrada de tudo."*
 
+**Status**: 🟢 Ativa — Semana 1 em curso (iniciada 2026-05-02).
+**Etapa anterior**: [`PHASE_0_RISCA.md`](./PHASE_0_RISCA.md) ✅
+**Próxima etapa**: [`PHASE_2_ENCAIXE.md`](./PHASE_2_ENCAIXE.md)
+
 ---
 
 ## 🎯 Objetivo da Etapa
@@ -20,81 +24,130 @@ Esta é a etapa que entrega o **killer demo**: no dia em que o Time Comercial fe
 
 ---
 
-## 🧱 Escopo Detalhado
+## ✅ Pré-Requisitos Já Atendidos (entregues no fim da Risca / dia 0 da Esquadro)
 
-### 1. Modelagem do Domínio Comercial (Semana 1)
+- [x] Migration `0002_comercial.sql` aplicada com **8 tabelas + 6 enums + RLS completo**:
+  - Tabelas: `clientes`, `parceiros`, `propostas`, `propostas_revisoes`, `projetos`, `projetos_times`, `recebimentos`, `notas_fiscais`
+  - Enums: `status_proposta`, `status_comercial`, `tipo_proposta`, `tipo_parceiro`, `status_projeto`, `saude_projeto`
+- [x] `types/database.ts` regenerado refletindo o schema real (1138 linhas, com `Database["public"]["Enums"]`)
+- [x] Packages no `package.json`:
+  - `react-hook-form` ^7.75 + `@hookform/resolvers` ^5.2
+  - `date-fns` ^4.1
+  - `zod` ^4.3, `@supabase/ssr` ^0.10, `lucide-react`, `tailwind-merge`, `clsx`
+- [x] Componentes UI base operacionais: `button`, `card`, `checkbox`, `input`, `label`
+- [x] Estrutura `server/{actions,queries,services}` na raiz já criada (Phase 0 colocou Auth lá)
 
-Tabelas adicionais ao schema (`supabase/migrations/0002_comercial.sql`):
+> **Decisão arquitetural reafirmada**: Server Actions e Queries vivem em `server/<dominio>/` na raiz do repo (não dentro de `app/`). Isso permite reutilização entre Server Components e Route Handlers sem amarrar ao roteamento do Next.
 
-**Entidades de pipeline**:
-- `clientes` — pessoa física ou jurídica que contrata
-- `parceiros` — Arquitetura, Construtora, Gerenciadora (com tipo enum)
-- `propostas` — N° OS, status de proposta, status comercial, valor, tipo, fator, elaborado por
-- `propostas_revisoes` — sufixos `R01..R10`, `E01 R02 CD` (etapa + revisão + complemento de detalhamento)
-- `projetos` — promovido a partir de proposta confirmada/fechada
-- `projetos_times` — quais Times atuam na Pasta do Projeto
+---
 
-**Entidades de recebimento**:
-- `recebimentos` — Data, Cliente, NF/Recibo, Proposta(OS), Medição, Entrada, vínculos com Arquitetura/Construtora/Gerenciadora
-- `notas_fiscais` — NFE/NFS com número e tipo (entrada/serviço)
+## 🧱 Escopo Detalhado por Semana
 
-**Enums**:
-- `status_proposta`: `em_pausa | enviada | nfp | nova | aprovada | recusada`
-- `status_comercial`: `iniciando | concorrencia | em_execucao | execucao | em_pausa | sem_status`
-- `tipo_proposta`: `pm | pn | fr | mob | fch | br | portas | portoes | batentes | forro | manutencao | outro`
-- `tipo_parceiro`: `arquitetura | construtora | gerenciadora`
+### Semana 1 — Fundação Comercial: Clientes & Parceiros
 
-**RLS** em todas: integrante do Time Comercial lê e escreve nos seus dados; gestor/diretoria leem tudo do ambiente.
+**Objetivo**: estabelecer o **padrão arquitetural de CRUD** que será replicado em Propostas, Recebimentos e Pasta. Ao fim da Semana 1, qualquer dev consegue ler um módulo e replicar a estrutura para o próximo.
 
-### 2. CRUD de Clientes e Parceiros (Semana 1)
-- [ ] Página `/ambientes/comercial/clientes` — listagem com busca e filtros
-- [ ] Drawer de criação/edição com Zod + RHF
-- [ ] Página `/ambientes/comercial/parceiros` com aba para cada tipo
-- [ ] Server Actions de criação/edição com validação dupla
+#### Decisões a fixar nesta semana
+- Padrão `ActionResult<T>` em `lib/types/action-result.ts` — discriminated union `{ ok: true; data: T } | { ok: false; erro: string; fieldErrors?: Record<string, string[]> }`.
+- Convenção de pastas em `server/`:
+  ```
+  server/
+    actions/
+      clientes/{criar,editar,arquivar}.ts
+      parceiros/{criar,editar,arquivar}.ts
+    queries/
+      clientes/{listar,obter}.ts
+      parceiros/{listar,obter}.ts
+    services/   (lógica de domínio reutilizável)
+  ```
+- Schemas Zod em `lib/validations/<dominio>.ts`, importando enums de `types/database.ts` (`Database["public"]["Enums"]["tipo_parceiro"]`) — fonte única de verdade.
+- Drawer/Sheet de criação-edição como componente reutilizável em `components/shared/drawer.tsx` (a base já existe; refinar).
 
-### 3. CRUD de Propostas (Semana 2)
-- [ ] Página `/ambientes/comercial/propostas` substituindo a primeira planilha (Controle de Entrada)
+#### Entregáveis Semana 1
+- [ ] `lib/types/action-result.ts` — tipo unificado para retornos de Server Actions
+- [ ] `lib/validations/clientes.ts` (Zod) com `ClienteCreateSchema` e `ClienteUpdateSchema`
+- [ ] `lib/validations/parceiros.ts` (Zod) usando enum `tipo_parceiro` do banco
+- [ ] `server/actions/clientes/{criar,editar,arquivar}.ts` com validação dupla e revalidatePath
+- [ ] `server/actions/parceiros/{criar,editar,arquivar}.ts`
+- [ ] `server/queries/clientes/{listar,obter}.ts` com filtros (busca, ativo, tipo PF/PJ)
+- [ ] `server/queries/parceiros/{listar,obter}.ts` com filtro por `tipo_parceiro`
+- [ ] Página `/ambientes/comercial/clientes` — tabela responsiva, busca, paginação básica
+- [ ] Página `/ambientes/comercial/parceiros` — tabs por tipo (Arquitetura | Construtora | Gerenciadora)
+- [ ] `components/shared/drawer.tsx` consumido nos dois CRUDs
+- [ ] Pendência de Phase 0 zerada: remover `app/server/actions/auth/entrar-com-senha.ts` vazio e padronizar imports
+- [ ] Branch `feature/esquadro-clientes-parceiros` aberta com PRs pequenos (<400 linhas)
+
+#### Critério de Pronto Semana 1
+- [ ] Marcus consegue criar um cliente PJ pelo Drawer e vê-lo na lista em <2s
+- [ ] Tentativa de criar parceiro com `tipo` inválido bloqueia no client (Zod) e no server (Zod + RLS)
+- [ ] `npm run typecheck` e `npm run lint` verdes
+- [ ] RLS testado: integrante de outro Time não enxerga lista no SQL puro
+- [ ] Padrão `ActionResult<T>` documentado em `docs/CONTRIBUTING.md`
+
+---
+
+### Semana 2 — Propostas + Killer Demo Recebimentos (parte 1)
+
+#### CRUD de Propostas
+- [ ] Página `/ambientes/comercial/propostas` substituindo "Controle de Entrada de Orçamento"
 - [ ] Tabela com filtros: Status, Status Comercial, Elaborado, Cliente, Período
-- [ ] Coluna calculada: dias desde envio, alerta visual >7 dias sem confirmação
-- [ ] Drawer de proposta com todos os campos da planilha real (incluindo OBS livre)
+- [ ] Coluna calculada: dias desde envio + alerta visual >7 dias sem confirmação
+- [ ] Drawer com todos os campos da planilha real (incluindo `observacoes` livre)
 - [ ] Versão mobile da tabela em formato de cards
-- [ ] Export CSV nativo (para emergência durante transição)
+- [ ] Export CSV nativo (emergência durante transição)
+- [ ] Auto-complete de Cliente já existente
 
-### 4. CRUD de Recebimentos — **Killer Demo** (Semana 2-3)
-- [ ] Página `/ambientes/comercial/ferramentas/recebimentos` substituindo a segunda planilha
+#### Recebimentos — Killer Demo (início)
+- [ ] Página `/ambientes/comercial/ferramentas/recebimentos` substituindo "01A Recebimento Entrada"
 - [ ] Tabela com colunas: Data, Cliente, NF/Recibo, Proposta (OS), Medição, Entrada, Arq, Const, Gerenciadora
-- [ ] Totalizadores em tempo real (soma de Medição e Entrada do mês corrente)
 - [ ] Filtros: Período, Cliente, Construtora, Gerenciadora
-- [ ] Drawer com auto-complete de Cliente e Proposta (puxando da base já existente)
-- [ ] **Validação**: NFE e NFS de mesmo OS devem ser detectadas como pareadas (não duplicadas)
-- [ ] Script de ETL que importa o CSV histórico da Arali em uma única operação (com log de duplicatas e linhas inválidas)
-- [ ] Export para CSV mantendo o layout da planilha original (caso ainda alguém peça)
+- [ ] Drawer com auto-complete de Cliente e Proposta
 
-### 5. Pasta do Projeto — Versão Comercial (Semana 3)
+#### Checkpoint 03 com Arali (fim da Semana 2)
+Demo Recebimentos com dados reais. Validar cores, layout, microcopy, totalizadores.
+
+---
+
+### Semana 3 — Recebimentos (parte 2) + Pasta do Projeto
+
+#### Recebimentos — fechamento
+- [ ] Totalizadores em tempo real (Medição e Entrada do mês corrente, com `useMemo` + agregação SQL)
+- [ ] **Validação**: NFE e NFS de mesmo OS detectadas como pareadas (não duplicadas)
+- [ ] Script de ETL importando o CSV histórico da Arali em uma única operação (com log de duplicatas e linhas inválidas)
+- [ ] Export CSV mantendo o layout da planilha original
+
+#### Pasta do Projeto — Versão Comercial
 - [ ] Página `/projetos/[id]/pasta`
 - [ ] Header com cliente, OS, status proposta, status comercial, times ativos
 - [ ] Tabs: Timeline (placeholder), Tasks, Ferramentas, Documentos (placeholder), Histórico
-- [ ] Sub-rota `/projetos/[id]/pasta/ferramentas/recebimentos` com a Ferramenta filtrada por aquele projeto
-- [ ] Promote de Proposta → Projeto via Server Action (valida se houve fechamento)
+- [ ] Sub-rota `/projetos/[id]/pasta/ferramentas/recebimentos` filtrada por projeto
+- [ ] Promote de Proposta → Projeto via Server Action (valida fechamento)
 
-### 6. Tasks Básicas (Semana 3-4)
-- [ ] Tabela `tasks` (owner, status, prioridade, prazo, projeto_id, time_id, tipo)
+---
+
+### Semana 4 — Tasks + Distribuição + Feed manual
+
+#### Tasks Básicas
+- [ ] Migration `0003_tasks.sql` com tabela `tasks` (owner, status, prioridade, prazo, projeto_id, time_id, tipo)
 - [ ] Sub-rota `/projetos/[id]/pasta/tasks` com Kanban simples (4 colunas)
 - [ ] Drawer de criação/edição
-- [ ] Atribuição respeitando regra de Líder/Gestor (Líder atribui só do próprio Time)
-- [ ] **Sem realtime ainda** — usa refetch on focus; realtime entra em Encaixe
+- [ ] Atribuição respeitando regra de Líder/Gestor
+- [ ] Sem realtime ainda — refetch on focus
 
-### 7. Distribuição de Projetos (Semana 4)
-- [ ] Server Action `distribuirProjeto` com validação de papel (Líder do Time Comercial / Gestor / Diretoria)
-- [ ] UI: na lista de Projetos, botão "Distribuir" disponível conforme papel
+#### Distribuição de Projetos
+- [ ] Server Action `distribuirProjeto` com validação de papel
+- [ ] UI: botão "Distribuir" na lista de Projetos conforme papel
 - [ ] Notificação in-app gerada (placeholder — entrega real em Encaixe)
 
-### 8. Feed do Time + Feed Geral — Versão Manual (Semana 4)
-- [ ] Tabelas: `posts`, `curtidas`, `checks`, `mencoes`
+#### Feed do Time + Geral — Versão Manual
+- [ ] Migration `0004_feed.sql`: `posts`, `curtidas`, `checks`, `mencoes`
 - [ ] Página `/feed` com toggle Time / Geral
 - [ ] Composer simples (texto + emoji)
-- [ ] Feed manual sem realtime — refetch on focus
-- [ ] Forward de Post **simplificado para "compartilhar como cópia"** (forward N:N entra em Encaixe se o tempo permitir)
+- [ ] Refetch on focus (sem realtime)
+- [ ] Forward simplificado para "compartilhar como cópia"
+
+#### Checkpoint 04 com Arali (fim da Semana 4)
+Onboarding do Time Comercial completo + Diretoria valida o Painel de Caixa do Mês.
 
 ---
 
@@ -122,10 +175,11 @@ Tabelas adicionais ao schema (`supabase/migrations/0002_comercial.sql`):
 
 | Risco | Mitigação |
 |---|---|
-| Time Comercial resiste a abandonar Excel | Co-criar UI com Suelen/Bianca em sessão de validação na Semana 2; fazer treinamento ao vivo |
-| Dados históricos inconsistentes (encoding, duplicatas, nulls como R$ 0,00) | Script ETL com relatório de saneamento + revisão manual com Cuca antes do import oficial |
-| Modelo de OS com sufixos R/E/CD complexo demais | Tratar `numero_os_raw` como string crua + parser secundário em view; não tentar normalizar tudo |
+| Time Comercial resiste a abandonar Excel | Co-criar UI com Suelen/Bianca em sessão de validação na Semana 2; treinamento ao vivo |
+| Dados históricos inconsistentes (encoding Windows-1252, duplicatas, nulls como R$ 0,00) | Script ETL com relatório de saneamento + revisão manual com Cuca antes do import oficial |
+| Modelo de OS com sufixos R/E/CD complexo demais | Manter `numero_os_raw` como string crua + parser secundário em view; `propostas_revisoes` com `sufixo_raw` |
 | Pasta do Projeto fica sem Documentos no MVP | Documentos entram em Encaixe; deixar tab placeholder com mensagem clara |
+| Sobrecarga arquitetural cedo demais | Semana 1 estabelece o padrão; Semana 2-4 só replica — não inventar abstração nova até Encaixe |
 
 ---
 
@@ -141,7 +195,5 @@ Tabelas adicionais ao schema (`supabase/migrations/0002_comercial.sql`):
 
 ---
 
-**Versão**: 1.0
-**Última atualização**: 2026-04-29
-**Etapa anterior**: [`PHASE_0_RISCA.md`](./PHASE_0_RISCA.md)
-**Próxima etapa**: [`PHASE_2_ENCAIXE.md`](./PHASE_2_ENCAIXE.md)
+**Versão**: 1.1
+**Última atualização**: 2026-05-02

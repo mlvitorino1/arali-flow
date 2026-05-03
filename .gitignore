@@ -125,3 +125,15 @@ $RECYCLE.BIN/
 # ============================================
 .directory
 .Trash-*
+
+# ============================================
+# DOCKER / SUPABASE CLI ARTIFACTS
+# ============================================
+container_inspect.json
+docker_info.json
+context_default.json
+context_desktop_linux.json
+entrypoint_raw.json
+volume_inspect.txt
+dev-server.log
+dev-server.err.log

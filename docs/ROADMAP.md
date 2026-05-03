@@ -1,24 +1,24 @@
 # 🗺️ Arali Flow — Roadmap
 
-> Plano de execução do MVP em 4 meses + visão pós-go-live. Cada etapa carrega o nome de uma operação real da marcenaria — porque é assim que se faz uma peça: marca, alinha, encaixa, lapida, envernizа.
+> Plano de execução do MVP em 4 meses + visão pós-go-live. Cada etapa carrega o nome de uma operação real da marcenaria — porque é assim que se faz uma peça: marca, alinha, encaixa, lapida, enverniza.
 
 ---
 
 ## 📑 Resumo das 5 Etapas
 
-| # | Etapa | Metáfora | Foco | Prazo | Doc Detalhado |
-|---|---|---|---|---|---|
-| 0 | **RISCA** | A marcação inicial na madeira — define todo corte | Fundação técnica + branding aplicado | Mês 1 | [`docs/PHASE_0_RISCA.md`](./PHASE_0_RISCA.md) |
-| 1 | **ESQUADRO** | Ferramenta de aferição de 90° — garante o alinhamento | Ambiente Comercial + Ferramenta Recebimentos | Mês 2 | [`docs/PHASE_1_ESQUADRO.md`](./PHASE_1_ESQUADRO.md) |
-| 2 | **ENCAIXE** | Onde duas peças se conectam com precisão | Ambiente PCP + Timeline paralela + Realtime | Mês 3 | [`docs/PHASE_2_ENCAIXE.md`](./PHASE_2_ENCAIXE.md) |
-| 3 | **LAPIDAÇÃO** | Lixa fina e polimento — entrega visível | Diretoria + KPIs + PWA + Go-Live | Mês 4 | [`docs/PHASE_3_LAPIDACAO.md`](./PHASE_3_LAPIDACAO.md) |
-| 4 | **VERNIZ** | Camada final de proteção e brilho | Engenharia + Suprimentos + Produção + Obra + Portal Arquiteto | Pós-MVP (Mês 5+) | [`docs/PHASE_4_VERNIZ.md`](./PHASE_4_VERNIZ.md) |
+| # | Etapa | Metáfora | Foco | Prazo | Status | Doc Detalhado |
+|---|---|---|---|---|---|---|
+| 0 | **RISCA** | A marcação inicial na madeira — define todo corte | Fundação técnica + branding aplicado | Mês 1 | ✅ Concluída (2026-05-02) | [`docs/PHASE_0_RISCA.md`](./PHASE_0_RISCA.md) |
+| 1 | **ESQUADRO** | Ferramenta de aferição de 90° — garante o alinhamento | Ambiente Comercial + Ferramenta Recebimentos | Mês 2 | 🟢 Ativa (Semana 1) | [`docs/PHASE_1_ESQUADRO.md`](./PHASE_1_ESQUADRO.md) |
+| 2 | **ENCAIXE** | Onde duas peças se conectam com precisão | Ambiente PCP + Timeline paralela + Realtime | Mês 3 | ⏳ Pendente | [`docs/PHASE_2_ENCAIXE.md`](./PHASE_2_ENCAIXE.md) |
+| 3 | **LAPIDAÇÃO** | Lixa fina e polimento — entrega visível | Diretoria + KPIs + PWA + Go-Live | Mês 4 | ⏳ Pendente | [`docs/PHASE_3_LAPIDACAO.md`](./PHASE_3_LAPIDACAO.md) |
+| 4 | **VERNIZ** | Camada final de proteção e brilho | Engenharia + Suprimentos + Produção + Obra + Portal Arquiteto | Pós-MVP (Mês 5+) | ⏳ Pendente | [`docs/PHASE_4_VERNIZ.md`](./PHASE_4_VERNIZ.md) |
 
 ---
 
 ## 🎯 Princípios de Execução
 
-1. **Cada etapa entrega valor verificável**: não há "fundação invisível" — Risca já termina com uma tela de login viva e um shell navegável.
+1. **Cada etapa entrega valor verificável**: não há "fundação invisível" — Risca já termina com login vivo, shell branded e RLS validado.
 2. **Ferramenta Recebimentos é o killer demo**: ela está em Esquadro (Mês 2) e substitui a planilha hoje no centro da operação Comercial. É o gatilho psicológico para o cliente sentir o sistema "valer o investimento".
 3. **Pasta do Projeto vive antes de Realtime**: em Esquadro a Pasta funciona com refetch tático. Realtime entra em Encaixe quando há colaboração simultânea de verdade.
 4. **Diretoria fecha o MVP**: KPIs e PWA são as últimas peças porque dependem de dados reais já fluindo nas outras etapas.
@@ -31,8 +31,8 @@
 ```
 SEMANA   01  02  03  04  05  06  07  08  09  10  11  12  13  14  15  16
          ─────────────────────────────────────────────────────────────────
-RISCA    ████████████████
-ESQUADRO                 ████████████████
+RISCA    ████████████████  ✅
+ESQUADRO                 ▓▓▓░░░░░░░░░░░░░  ◀ você está aqui (Sem. 1)
 ENCAIXE                                  ████████████████
 LAPIDAÇÃO                                                ████████████████
                                                                        ↑
@@ -68,18 +68,29 @@ Se em qualquer etapa o tempo apertar, **corta na seguinte ordem** (do menos crí
 
 ---
 
-## 📍 Próximos Passos Imediatos (Semana 01 da Risca)
+## 📍 Próximos Passos Imediatos (Semana 01 da ESQUADRO — em curso)
 
-1. Aplicar tokens de branding em `globals.css` e `tailwind.config`
-2. Substituir `app/page.tsx` placeholder pelo shell real
-3. Implementar clients Supabase (`server`, `browser`, `admin`)
-4. Migration inicial: `usuarios`, `integrantes`, `times`, `ambientes`, `integrantes_times` + RLS habilitado
-5. Auth funcional (login senha + magic link + callback)
-6. Reescrever scripts em `package.json` (typecheck, format, types:generate, db:migrate)
-7. Limpar working tree, conventional commits, push em branch `feature/risca`
+**Pré-requisitos já satisfeitos**:
+- ✅ Migration `0002_comercial.sql` aplicada (8 tabelas, 6 enums, RLS completo)
+- ✅ `types/database.ts` regenerado a partir do schema real
+- ✅ Packages `react-hook-form` + `@hookform/resolvers` + `date-fns` já instalados
+- ✅ Componentes UI base (`button`, `card`, `input`, `label`, `checkbox`) operacionais
+
+**Foco da Semana 1**: padrão arquitetural de Server Actions + telas de Clientes e Parceiros (entidades-padrão do Comercial, base para Propostas e Recebimentos).
+
+1. Normalizar caminho de Server Actions em `server/actions/<dominio>/` (corrigir resíduo `app/server/actions/auth/entrar-com-senha.ts` vazio)
+2. Criar `lib/validations/clientes.ts` e `lib/validations/parceiros.ts` (Zod schemas com tipagem do banco)
+3. Implementar `server/actions/clientes/{criar,editar,arquivar}.ts` + `server/queries/clientes/listar.ts`
+4. Implementar `server/actions/parceiros/{criar,editar,arquivar}.ts` + `server/queries/parceiros/listar.ts`
+5. Página `/ambientes/comercial/clientes` com tabela + busca + Drawer RHF
+6. Página `/ambientes/comercial/parceiros` com tabs por `tipo_parceiro` + Drawer RHF
+7. Padrão `ActionResult<T>` documentado em `lib/types/action-result.ts` e `docs/CONTRIBUTING.md`
+8. Push em branch `feature/esquadro-clientes-parceiros`
+
+> O detalhamento por dia, arquivos e critérios de pronto está em [`PHASE_1_ESQUADRO.md`](./PHASE_1_ESQUADRO.md).
 
 ---
 
-**Versão**: 1.0
-**Última atualização**: 2026-04-29
+**Versão**: 1.1
+**Última atualização**: 2026-05-02
 **Autor**: Marcus Vitorino + Copiloto IA
